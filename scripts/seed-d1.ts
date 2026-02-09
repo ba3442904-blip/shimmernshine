@@ -73,7 +73,7 @@ async function main() {
       `"sortOrder"=excluded."sortOrder";`
   );
 
-const priceTiers = [
+const priceTiers: Array<[string, string, number]> = [
   ["interior-detail", "sedan", 18900],
   ["interior-detail", "suv", 22900],
   ["interior-detail", "truck", 25900],
