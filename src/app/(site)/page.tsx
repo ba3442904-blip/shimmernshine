@@ -68,6 +68,37 @@ export default async function HomePage() {
 
       <section>
         <Container>
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+                Instagram
+              </div>
+              <h2 className="mt-3 text-3xl font-semibold">Latest from the shop.</h2>
+              <p className="mt-2 text-sm text-[var(--muted)]">
+                Fresh details, before-and-after shots, and what we&apos;re working on now.
+              </p>
+            </div>
+            <Button
+              href="https://www.instagram.com/shimmer.n.shine_autodetailing/"
+              variant="secondary"
+            >
+              Follow on Instagram
+            </Button>
+          </div>
+          <iframe
+            src="https://snapwidget.com/embed/1117801"
+            className="snapwidget-widget snapwidget-embed"
+            allowTransparency
+            frameBorder={0}
+            scrolling="no"
+            style={{ border: "none", overflow: "hidden", width: "100%", height: "510px" }}
+            title="Posts from Instagram"
+          />
+        </Container>
+      </section>
+
+      <section>
+        <Container>
           <div className="card-surface card-hover grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3">
             {["Google Reviews", "Locally Owned", "Certified Products", "Premium Finish", "Insured & Trusted", "Mobile Service"].map(
               (badge) => (
@@ -226,37 +257,6 @@ export default async function HomePage() {
               <ReviewCard key={review.id} review={review} />
             ))}
           </div>
-        </Container>
-      </section>
-
-      <section>
-        <Container>
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                Instagram
-              </div>
-              <h2 className="mt-3 text-3xl font-semibold">Latest from the shop.</h2>
-              <p className="mt-2 text-sm text-[var(--muted)]">
-                Fresh details, before-and-after shots, and what we&apos;re working on now.
-              </p>
-            </div>
-            <Button
-              href="https://www.instagram.com/shimmer.n.shine_autodetailing/"
-              variant="secondary"
-            >
-              Follow on Instagram
-            </Button>
-          </div>
-          <iframe
-            src="https://snapwidget.com/embed/1117801"
-            className="snapwidget-widget snapwidget-embed"
-            allowTransparency
-            frameBorder={0}
-            scrolling="no"
-            style={{ border: "none", overflow: "hidden", width: "100%", height: "510px" }}
-            title="Posts from Instagram"
-          />
         </Container>
       </section>
 
