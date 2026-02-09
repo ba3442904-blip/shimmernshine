@@ -33,15 +33,19 @@ export async function POST(req: Request) {
 
     try {
       const { env } = getCloudflareContext();
-      const r2 = env?.R2_BUCKET as
-        | {
-            put: (
-              key: string,
-              value: ArrayBuffer | Uint8Array,
-              options?: { httpMetadata?: { contentType?: string } }
-            ) => Promise<void>;
-          }
-        | undefined;
+      const r2 = (
+        env as unknown as
+          | {
+              R2_BUCKET?: {
+                put: (
+                  key: string,
+                  value: ArrayBuffer | Uint8Array,
+                  options?: { httpMetadata?: { contentType?: string } }
+                ) => Promise<void>;
+              };
+            }
+          | undefined
+      )?.R2_BUCKET;
       const publicUrl =
         (env?.R2_PUBLIC_URL as string | undefined) ||
         process.env.R2_PUBLIC_URL;
