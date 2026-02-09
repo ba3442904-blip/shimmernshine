@@ -143,7 +143,6 @@ export default async function AdminServicesPage() {
             type="number"
             placeholder="Duration (mins)"
             className="input-surface rounded-xl px-3 py-2 text-sm"
-            onWheel={(event) => event.currentTarget.blur()}
             required
           />
           <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
@@ -187,7 +186,6 @@ export default async function AdminServicesPage() {
                 type="number"
                 defaultValue={service.durationMins}
                 className="input-surface rounded-xl px-3 py-2 text-sm"
-                onWheel={(event) => event.currentTarget.blur()}
               />
               <button className="self-start rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
                 Save changes
