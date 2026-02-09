@@ -20,6 +20,7 @@ export async function POST(req: Request) {
   const imageUrl = String(formData.get("imageUrl") || "");
   const category = String(formData.get("category") || "interior");
   const alt = String(formData.get("alt") || "Gallery image");
+  const sortOrderInput = Number(formData.get("sortOrder") || 0);
 
   const hasFile = !!file && file.size > 0;
 
@@ -85,13 +86,24 @@ export async function POST(req: Request) {
 
   const max = await db.galleryImage.aggregate({ _max: { sortOrder: true } });
   const nextSort = (max._max.sortOrder ?? 0) + 1;
+  const desiredSort = Number.isFinite(sortOrderInput) && sortOrderInput > 0
+    ? Math.floor(sortOrderInput)
+    : null;
+  const sortOrder = desiredSort ?? nextSort;
+
+  if (desiredSort) {
+    await db.galleryImage.updateMany({
+      where: { sortOrder: { gte: desiredSort } },
+      data: { sortOrder: { increment: 1 } },
+    });
+  }
 
   const image = await db.galleryImage.create({
     data: {
       url: imagePath,
       alt,
       category: category as never,
-      sortOrder: nextSort,
+      sortOrder,
     },
   });
 

@@ -61,6 +61,16 @@ export default function GalleryUpload() {
           className="input-surface rounded-xl px-3 py-2 text-sm"
         />
       </div>
+      <div className="grid gap-2 text-sm font-semibold">
+        Order (optional)
+        <input
+          name="sortOrder"
+          type="number"
+          min={1}
+          placeholder="1 = first"
+          className="input-surface rounded-xl px-3 py-2 text-sm"
+        />
+      </div>
       <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
         Upload
       </button>
