@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { writeFile, mkdir } from "fs/promises";
+import path from "path";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
+
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   const db = getDb();
@@ -17,7 +21,9 @@ export async function POST(req: Request) {
   const category = String(formData.get("category") || "interior");
   const alt = String(formData.get("alt") || "Gallery image");
 
-  if (!file && !imageUrl) {
+  const hasFile = !!file && file.size > 0;
+
+  if (!hasFile && !imageUrl) {
     return NextResponse.json(
       { error: "Upload a file or provide an image URL." },
       { status: 400 }
@@ -26,58 +32,54 @@ export async function POST(req: Request) {
 
   let imagePath = imageUrl;
 
-  if (file) {
+  if (hasFile) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const filename = `${Date.now()}-${file.name.replace(/\\s+/g, "-")}`;
 
     try {
-      const { env } = getCloudflareContext();
-      const cfEnv =
-        env as unknown as
-          | {
-              R2_BUCKET?: {
-                put: (
-                  key: string,
-                  value: ArrayBuffer | Uint8Array,
-                  options?: { httpMetadata?: { contentType?: string } }
-                ) => Promise<void>;
-              };
-              R2_PUBLIC_URL?: string;
-            }
-          | undefined;
-      const r2 = cfEnv?.R2_BUCKET;
-      const publicUrl = cfEnv?.R2_PUBLIC_URL || process.env.R2_PUBLIC_URL;
+      const endpoint = process.env.R2_ENDPOINT;
+      const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+      const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+      const bucket = process.env.R2_BUCKET;
+      const publicUrl = process.env.R2_PUBLIC_URL;
+      const allowLocal = process.env.ALLOW_LOCAL_UPLOADS === "true";
 
-      if (r2) {
-        const key = `uploads/${filename}`;
-        await r2.put(key, buffer, {
-          httpMetadata: { contentType: file.type || "application/octet-stream" },
+      if (endpoint && accessKeyId && secretAccessKey && bucket && publicUrl) {
+        const client = new S3Client({
+          region: "auto",
+          endpoint,
+          credentials: { accessKeyId, secretAccessKey },
         });
-        if (!publicUrl) {
-          return NextResponse.json(
-            { error: "R2_PUBLIC_URL is required to serve uploaded images." },
-            { status: 500 }
-          );
-        }
+        const key = `uploads/${filename}`;
+        await client.send(
+          new PutObjectCommand({
+            Bucket: bucket,
+            Key: key,
+            Body: buffer,
+            ContentType: file.type || "application/octet-stream",
+          })
+        );
         const baseUrl = publicUrl.endsWith("/")
           ? publicUrl.slice(0, -1)
           : publicUrl;
         imagePath = `${baseUrl}/${key}`;
-      } else {
-        const { writeFile, mkdir } = await import("fs/promises");
-        const path = await import("path");
+      } else if (allowLocal) {
         const uploadsDir = path.join(process.cwd(), "public", "uploads");
         await mkdir(uploadsDir, { recursive: true });
         const filepath = path.join(uploadsDir, filename);
         await writeFile(filepath, buffer);
         imagePath = `/uploads/${filename}`;
+      } else {
+        return NextResponse.json(
+          { error: "Image storage is not configured." },
+          { status: 500 }
+        );
       }
     } catch (error) {
-      return NextResponse.json(
-        { error: "Image upload failed." },
-        { status: 500 }
-      );
+      const message =
+        error instanceof Error ? error.message : "Image upload failed.";
+      return NextResponse.json({ error: message }, { status: 500 });
     }
   }
 
