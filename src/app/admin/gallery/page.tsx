@@ -8,7 +8,7 @@ export default async function AdminGalleryPage() {
   await requireAdmin();
   const db = getDb();
   const images = await db.galleryImage.findMany({
-    orderBy: { sortOrder: "asc" },
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
   });
   const categories = ["interior", "exterior", "paint", "wheels"] as const;
 
@@ -42,24 +42,23 @@ export default async function AdminGalleryPage() {
     const id = String(formData.get("id"));
     const direction = String(formData.get("direction"));
     const items = await db.galleryImage.findMany({
-      orderBy: { sortOrder: "asc" },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
     });
     const index = items.findIndex((image) => image.id === id);
     if (index === -1) return;
     const swapIndex = direction === "up" ? index - 1 : index + 1;
     if (swapIndex < 0 || swapIndex >= items.length) return;
-    const current = items[index];
-    const swap = items[swapIndex];
-    await db.$transaction([
-      db.galleryImage.update({
-        where: { id: current.id },
-        data: { sortOrder: swap.sortOrder },
-      }),
-      db.galleryImage.update({
-        where: { id: swap.id },
-        data: { sortOrder: current.sortOrder },
-      }),
-    ]);
+    const newOrder = items.map((item) => item.id);
+    const [moved] = newOrder.splice(index, 1);
+    newOrder.splice(swapIndex, 0, moved);
+    await db.$transaction(
+      newOrder.map((itemId, idx) =>
+        db.galleryImage.update({
+          where: { id: itemId },
+          data: { sortOrder: idx + 1 },
+        })
+      )
+    );
     revalidatePath("/admin/gallery");
   }
 

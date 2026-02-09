@@ -107,5 +107,19 @@ export async function POST(req: Request) {
     },
   });
 
+  if (!desiredSort) {
+    const items = await db.galleryImage.findMany({
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+    });
+    await db.$transaction(
+      items.map((item, idx) =>
+        db.galleryImage.update({
+          where: { id: item.id },
+          data: { sortOrder: idx + 1 },
+        })
+      )
+    );
+  }
+
   return NextResponse.json({ ok: true, image });
 }
