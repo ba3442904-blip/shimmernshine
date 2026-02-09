@@ -2,6 +2,8 @@ import Container from "@/components/Container";
 import LightboxGallery from "@/components/LightboxGallery";
 import { getPublicGallery } from "@/lib/siteData";
 
+export const dynamic = "force-dynamic";
+
 export default async function GalleryPage() {
   const gallery = await getPublicGallery();
 

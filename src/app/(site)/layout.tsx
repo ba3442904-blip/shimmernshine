@@ -5,6 +5,8 @@ import TextUsButton from "@/components/TextUsButton";
 import Navbar from "@/components/Navbar";
 import { getSettings } from "@/lib/siteData";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
   return {
