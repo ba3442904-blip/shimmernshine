@@ -7,6 +7,7 @@ import InstantQuoteForm from "@/components/InstantQuoteForm";
 import PricingCard from "@/components/PricingCard";
 import ReviewCard from "@/components/ReviewCard";
 import ServiceCard from "@/components/ServiceCard";
+import Script from "next/script";
 import { getPublicFaq, getPublicGallery, getPublicReviews, getPublicServices, getSettings } from "@/lib/siteData";
 
 export default async function HomePage() {
@@ -225,6 +226,36 @@ export default async function HomePage() {
               <ReviewCard key={review.id} review={review} />
             ))}
           </div>
+        </Container>
+      </section>
+
+      <section>
+        <Container>
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+                Instagram
+              </div>
+              <h2 className="mt-3 text-3xl font-semibold">Latest from the shop.</h2>
+              <p className="mt-2 text-sm text-[var(--muted)]">
+                Fresh details, before-and-after shots, and what we&apos;re working on now.
+              </p>
+            </div>
+            <Button
+              href="https://www.instagram.com/shimmer.n.shine_autodetailing/"
+              variant="secondary"
+            >
+              Follow on Instagram
+            </Button>
+          </div>
+          <Script src="https://cdn.lightwidget.com/widgets/lightwidget.js" strategy="lazyOnload" />
+          <iframe
+            src="https://lightwidget.com/widgets/34c0f7208cfd5dc388ba28e4daecbf79.html"
+            scrolling="no"
+            allowTransparency
+            className="lightwidget-widget"
+            style={{ width: "100%", border: 0, overflow: "hidden" }}
+          />
         </Container>
       </section>
 

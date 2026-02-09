@@ -6,7 +6,7 @@ Two-sided Next.js app:
 
 ## Tech
 - Next.js App Router + TypeScript + Tailwind
-- Prisma + SQLite
+- Prisma + Postgres
 - NextAuth (Credentials) for single-owner login
 
 ## Setup
@@ -17,10 +17,12 @@ npm i
 
 2) Create `.env`:
 ```
-DATABASE_URL="file:./prisma/dev.db"
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
 NEXTAUTH_SECRET="change-me"
 ADMIN_EMAIL="owner@shimmernshine.com"
 ADMIN_PASSWORD="change-me"
+NEXTAUTH_URL="http://localhost:3000"
+
 ```
 
 3) Migrate + seed:
