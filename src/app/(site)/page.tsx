@@ -248,13 +248,14 @@ export default async function HomePage() {
               Follow on Instagram
             </Button>
           </div>
-          <Script src="https://cdn.lightwidget.com/widgets/lightwidget.js" strategy="lazyOnload" />
           <iframe
-            src="https://lightwidget.com/widgets/34c0f7208cfd5dc388ba28e4daecbf79.html"
-            scrolling="no"
+            src="https://snapwidget.com/embed/1117801"
+            className="snapwidget-widget snapwidget-embed"
             allowTransparency
-            className="lightwidget-widget"
-            style={{ width: "100%", border: 0, overflow: "hidden" }}
+            frameBorder={0}
+            scrolling="no"
+            style={{ border: "none", overflow: "hidden", width: "100%", height: "510px" }}
+            title="Posts from Instagram"
           />
         </Container>
       </section>

@@ -89,6 +89,10 @@
     display: none;
   }
 
+  .snapwidget-embed {
+    height: 360px !important;
+  }
+
   .mobile-gallery-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
