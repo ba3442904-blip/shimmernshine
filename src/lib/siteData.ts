@@ -23,64 +23,102 @@ function safeParse<T>(value: string | null, fallback: T): T {
 }
 
 export async function getSettings() {
-  const db = getDb();
-  const records = await db.setting.findMany({
-    where: { key: { in: keys as unknown as string[] } },
-  });
+  try {
+    const db = getDb();
+    const records = await db.setting.findMany({
+      where: { key: { in: keys as unknown as string[] } },
+    });
 
-  const map = new Map(records.map((r) => [r.key, r.value]));
+    const map = new Map(records.map((r) => [r.key, r.value]));
 
-  return {
-    businessInfo: safeParse(map.get("businessInfo") ?? null, siteDefaults.businessInfo),
-    hours: safeParse(map.get("hours") ?? null, siteDefaults.hours),
-    serviceArea: safeParse(map.get("serviceArea") ?? null, siteDefaults.serviceArea),
-    socials: safeParse(map.get("socials") ?? null, siteDefaults.socials),
-    seo: safeParse(map.get("seo") ?? null, siteDefaults.seo),
-    booking: safeParse(map.get("booking") ?? null, siteDefaults.booking),
-    trustBadges: safeParse(
-      map.get("trustBadges") ?? null,
-      siteDefaults.trustBadges
-    ),
-  };
+    return {
+      businessInfo: safeParse(
+        map.get("businessInfo") ?? null,
+        siteDefaults.businessInfo
+      ),
+      hours: safeParse(map.get("hours") ?? null, siteDefaults.hours),
+      serviceArea: safeParse(
+        map.get("serviceArea") ?? null,
+        siteDefaults.serviceArea
+      ),
+      socials: safeParse(map.get("socials") ?? null, siteDefaults.socials),
+      seo: safeParse(map.get("seo") ?? null, siteDefaults.seo),
+      booking: safeParse(map.get("booking") ?? null, siteDefaults.booking),
+      trustBadges: safeParse(
+        map.get("trustBadges") ?? null,
+        siteDefaults.trustBadges
+      ),
+    };
+  } catch {
+    return {
+      businessInfo: siteDefaults.businessInfo,
+      hours: siteDefaults.hours,
+      serviceArea: siteDefaults.serviceArea,
+      socials: siteDefaults.socials,
+      seo: siteDefaults.seo,
+      booking: siteDefaults.booking,
+      trustBadges: siteDefaults.trustBadges,
+    };
+  }
 }
 
 export async function getPublicServices() {
-  const db = getDb();
-  return db.service.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-    include: { priceTiers: true },
-  });
+  try {
+    const db = getDb();
+    return await db.service.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+      include: { priceTiers: true },
+    });
+  } catch {
+    return [];
+  }
 }
 
 export async function getPublicAddOns() {
-  const db = getDb();
-  return db.addOn.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    const db = getDb();
+    return await db.addOn.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    return [];
+  }
 }
 
 export async function getPublicGallery() {
-  const db = getDb();
-  return db.galleryImage.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    const db = getDb();
+    return await db.galleryImage.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    return [];
+  }
 }
 
 export async function getPublicReviews(featuredOnly = false) {
-  const db = getDb();
-  return db.review.findMany({
-    where: { isActive: true, ...(featuredOnly ? { isFeatured: true } : {}) },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    const db = getDb();
+    return await db.review.findMany({
+      where: { isActive: true, ...(featuredOnly ? { isFeatured: true } : {}) },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    return [];
+  }
 }
 
 export async function getPublicFaq() {
-  const db = getDb();
-  return db.fAQ.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    const db = getDb();
+    return await db.fAQ.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    return [];
+  }
 }
