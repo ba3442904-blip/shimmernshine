@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import { LeadStatus, LeadType, Prisma } from "@prisma/client";
 import { getDb } from "@/lib/prisma";
 import Card from "@/components/Card";
 import { requireAdmin } from "@/lib/requireAdmin";
@@ -16,8 +17,18 @@ const STATUS_OPTIONS = [
   "archived",
 ] as const;
 
+const TYPE_OPTIONS = ["quote", "booking"] as const;
+
 function toLabel(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function isLeadStatus(value: string): value is LeadStatus {
+  return STATUS_OPTIONS.includes(value as LeadStatus);
+}
+
+function isLeadType(value: string): value is LeadType {
+  return TYPE_OPTIONS.includes(value as LeadType);
 }
 
 export default async function AdminLeadsPage({
@@ -30,10 +41,13 @@ export default async function AdminLeadsPage({
   const status = searchParams?.status ?? "all";
   const type = searchParams?.type ?? "all";
 
-  const where = {
-    ...(status !== "all" ? { status } : {}),
-    ...(type !== "all" ? { type } : {}),
-  };
+  const where: Prisma.LeadWhereInput = {};
+  if (status !== "all" && isLeadStatus(status)) {
+    where.status = status;
+  }
+  if (type !== "all" && isLeadType(type)) {
+    where.type = type;
+  }
 
   const leads = await db.lead.findMany({
     where,
@@ -49,7 +63,7 @@ export default async function AdminLeadsPage({
     const statusValue = String(formData.get("status"));
     await db.lead.update({
       where: { id: leadId },
-      data: { status: statusValue as never },
+      data: { status: statusValue as LeadStatus },
     });
     revalidatePath("/admin/leads");
   }
