@@ -55,8 +55,13 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
             className="mb-4 w-full rounded-3xl bg-[var(--surface2)] p-3 text-left shadow-[var(--shadow-soft)]"
             onClick={() => setActiveIndex(index)}
           >
-            <div className="aspect-[4/3] rounded-2xl bg-[var(--surface)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center">
-              {image.alt}
+            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--surface)] shadow-sm">
+              <img
+                src={image.url}
+                alt={image.alt}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
             </div>
           </button>
         ))}
@@ -79,8 +84,12 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
                 Close
               </button>
             </div>
-            <div className="mt-4 aspect-[16/9] rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] flex items-center justify-center">
-              {activeImage.alt}
+            <div className="mt-4 aspect-[16/9] overflow-hidden rounded-2xl bg-[var(--surface2)]">
+              <img
+                src={activeImage.url}
+                alt={activeImage.alt}
+                className="h-full w-full object-contain bg-black"
+              />
             </div>
             <div className="mt-4 flex justify-between">
               <button
