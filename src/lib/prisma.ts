@@ -20,7 +20,9 @@ export const getDb = cache(() => {
     const cfEnv =
       env as unknown as
         | {
-            DB?: D1Database;
+            DB?: {
+              prepare: (query: string) => unknown;
+            };
           }
         | undefined;
     if (cfEnv?.DB) {
