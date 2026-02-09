@@ -100,7 +100,7 @@ for (const [slug, vehicleSize, priceCents] of priceTiers) {
   );
 }
 
-const addOns = [
+const addOns: Array<[string, string, number, number]> = [
   ["Pet Hair Removal", "Deep extraction for stubborn pet hair.", 3500, 1],
   ["Odor Treatment", "Neutralize smoke, food, and mildew odors.", 4500, 2],
   ["Clay Bar + Sealant", "Extra paint decontamination and protection.", 5500, 3],
@@ -117,7 +117,7 @@ for (const [name, description, priceCents, sortOrder] of addOns) {
   );
 }
 
-const gallery = [
+const gallery: Array<[string, string, string, number]> = [
   ["/images/gallery-1.jpg", "Interior before and after", "interior", 1],
   ["/images/gallery-2.jpg", "Exterior shine", "exterior", 2],
   ["/images/gallery-3.jpg", "Paint correction", "paint", 3],
@@ -138,7 +138,7 @@ for (const [url, alt, category, sortOrder] of gallery) {
   );
 }
 
-const reviews = [
+const reviews: Array<[string, number, string, string, number, number]> = [
   [
     "Jordan M.",
     5,
@@ -180,7 +180,7 @@ for (const [name, stars, text, date, isFeatured, sortOrder] of reviews) {
   );
 }
 
-const faqs = [
+const faqs: Array<[string, string, number]> = [
   [
     "How long does a full detail take?",
     "Most full details take 3-4 hours depending on the vehicle size.",
