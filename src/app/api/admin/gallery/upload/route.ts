@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
     try {
       const { env } = getCloudflareContext();
-      const r2 = (
+      const cfEnv =
         env as unknown as
           | {
               R2_BUCKET?: {
@@ -43,12 +43,11 @@ export async function POST(req: Request) {
                   options?: { httpMetadata?: { contentType?: string } }
                 ) => Promise<void>;
               };
+              R2_PUBLIC_URL?: string;
             }
-          | undefined
-      )?.R2_BUCKET;
-      const publicUrl =
-        (env?.R2_PUBLIC_URL as string | undefined) ||
-        process.env.R2_PUBLIC_URL;
+          | undefined;
+      const r2 = cfEnv?.R2_BUCKET;
+      const publicUrl = cfEnv?.R2_PUBLIC_URL || process.env.R2_PUBLIC_URL;
 
       if (r2) {
         const key = `uploads/${filename}`;
