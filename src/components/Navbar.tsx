@@ -32,7 +32,7 @@ export default function Navbar({
   return (
     <header className="navbar sticky top-0 z-50 border-b border-[var(--divider)] bg-[color-mix(in srgb, var(--bg) 92%, transparent)] backdrop-blur">
       <Container>
-        <div className="nav-row flex items-center justify-between gap-3 py-3 lg:grid lg:grid-cols-[auto_auto_auto] lg:justify-center lg:gap-6 lg:py-4">
+        <div className="nav-row flex items-center justify-center gap-4 py-3 lg:gap-6 lg:py-4">
           <div className="brand-left flex items-center gap-2">
             <Link href="/" className="inline-flex items-center justify-center text-[var(--text)]">
               <span className="mobile-logo relative flex h-16 w-36 items-center justify-center overflow-hidden rounded-2xl border border-[var(--border2)] bg-[var(--surface2)] shadow-sm sm:h-20 sm:w-48 lg:h-32 lg:w-80">
@@ -58,31 +58,25 @@ export default function Navbar({
             </button>
           </div>
 
-          <Link
-            href="/"
-            className="brand-text text-sm font-semibold text-[var(--text)] sm:text-base lg:text-lg"
-          >
-            Shimmer <span className="text-[var(--accent)]">N</span> Shine Detailing
-          </Link>
-
-          <nav className="hidden items-center justify-center gap-6 text-sm font-semibold lg:flex">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-[var(--text)] hover:text-[var(--accent)] text-center"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="hidden items-center justify-center gap-3 lg:flex">
-            <ThemeToggle />
-            <Button href={`tel:${phone}`} variant="secondary">
-              Call Now
-            </Button>
-            <Button href={bookingHref}>Book Now</Button>
+          <div className="hidden items-center justify-center gap-6 lg:flex lg:mx-auto">
+            <nav className="flex items-center justify-center gap-6 text-sm font-semibold">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[var(--text)] hover:text-[var(--accent)] text-center"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center justify-center gap-3">
+              <ThemeToggle />
+              <Button href={`tel:${phone}`} variant="secondary">
+                Call Now
+              </Button>
+              <Button href={bookingHref}>Book Now</Button>
+            </div>
           </div>
         </div>
       </Container>

@@ -58,7 +58,7 @@
   .nav-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 10px;
     min-height: 52px;
     flex-wrap: nowrap;
@@ -80,17 +80,6 @@
     margin-left: 6px;
   }
 
-  .brand-text {
-    margin-left: auto;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 60vw;
-    text-align: right;
-  }
 
   .mobile-pricing-grid > *:nth-child(n + 3) {
     display: none;
