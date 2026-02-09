@@ -17,8 +17,14 @@ const createNodeClient = () =>
 export const getDb = cache(() => {
   try {
     const { env } = getCloudflareContext();
-    if (env?.DB) {
-      const adapter = new PrismaD1(env.DB);
+    const cfEnv =
+      env as unknown as
+        | {
+            DB?: D1Database;
+          }
+        | undefined;
+    if (cfEnv?.DB) {
+      const adapter = new PrismaD1(cfEnv.DB);
       return new PrismaClient({ adapter });
     }
   } catch {
