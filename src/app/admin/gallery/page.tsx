@@ -10,6 +10,19 @@ export default async function AdminGalleryPage() {
   const images = await db.galleryImage.findMany({
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
   });
+  const needsNormalize = images.some(
+    (image, index) => image.sortOrder !== index + 1
+  );
+  if (needsNormalize && images.length) {
+    await db.$transaction(
+      images.map((image, index) =>
+        db.galleryImage.update({
+          where: { id: image.id },
+          data: { sortOrder: index + 1 },
+        })
+      )
+    );
+  }
   const categories = ["interior", "exterior", "paint", "wheels"] as const;
 
   async function toggleImage(formData: FormData) {
@@ -88,8 +101,31 @@ export default async function AdminGalleryPage() {
     revalidatePath("/admin/gallery");
   }
 
+  async function normalizeOrder() {
+    "use server";
+    await requireAdmin();
+    const db = getDb();
+    const items = await db.galleryImage.findMany({
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+    });
+    await db.$transaction(
+      items.map((item, idx) =>
+        db.galleryImage.update({
+          where: { id: item.id },
+          data: { sortOrder: idx + 1 },
+        })
+      )
+    );
+    revalidatePath("/admin/gallery");
+  }
+
   return (
     <div className="grid gap-6">
+      <form action={normalizeOrder} className="flex justify-end">
+        <button className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold">
+          Normalize order
+        </button>
+      </form>
       <Card>
         <div className="text-sm font-semibold">Upload new image</div>
         <div className="mt-4">
