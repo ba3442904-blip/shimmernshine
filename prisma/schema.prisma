@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  owner
+}
+
+enum LeadType {
+  quote
+  booking
+}
+
+enum LeadStatus {
+  new
+  contacted
+  scheduled
+  completed
+  archived
+}
+
+enum VehicleSize {
+  sedan
+  suv
+  truck
+}
+
+enum GalleryCategory {
+  interior
+  exterior
+  paint
+  wheels
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(owner)
+  createdAt    DateTime @default(now())
+}
+
+model Lead {
+  id            String     @id @default(cuid())
+  type          LeadType
+  name          String
+  phone         String
+  email         String?
+  vehicleType   String?
+  serviceId     String?
+  preferredDate String?
+  address       String?
+  notes         String?
+  internalNotes String?
+  status        LeadStatus @default(new)
+  createdAt     DateTime   @default(now())
+
+  service Service? @relation(fields: [serviceId], references: [id])
+}
+
+model Service {
+  id               String      @id @default(cuid())
+  slug             String      @unique
+  name             String
+  shortDescription String
+  longDescription  String
+  durationMins     Int
+  isActive         Boolean     @default(true)
+  sortOrder        Int         @default(0)
+  createdAt        DateTime    @default(now())
+
+  priceTiers PriceTier[]
+  leads      Lead[]
+}
+
+model PriceTier {
+  id           String      @id @default(cuid())
+  serviceId    String
+  vehicleSize  VehicleSize
+  priceCents   Int
+  isStartingAt Boolean     @default(true)
+
+  service Service @relation(fields: [serviceId], references: [id])
+}
+
+model AddOn {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  priceCents  Int
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model GalleryImage {
+  id       String          @id @default(cuid())
+  url      String
+  alt      String
+  category GalleryCategory
+  sortOrder Int            @default(0)
+  isActive Boolean         @default(true)
+  createdAt DateTime       @default(now())
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  name       String
+  stars      Int
+  text       String
+  date       String
+  isFeatured Boolean  @default(false)
+  sortOrder  Int      @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  key   String @id
+  value String
+}

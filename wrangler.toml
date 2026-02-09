@@ -1,0 +1,14 @@
+name = "shimmernshine"
+main = ".open-next/worker.js"
+compatibility_date = "2026-02-09"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "shimmernshine"
+database_id = "ac521261-6515-4805-a395-96bb0945612c"
+migrations_dir = "prisma/migrations"

@@ -1,0 +1,166 @@
+import { revalidatePath } from "next/cache";
+import Card from "@/components/Card";
+import { getDb } from "@/lib/prisma";
+import GalleryUpload from "@/components/admin/GalleryUpload";
+import { requireAdmin } from "@/lib/requireAdmin";
+
+export default async function AdminGalleryPage() {
+  await requireAdmin();
+  const db = getDb();
+  const images = await db.galleryImage.findMany({
+    orderBy: { sortOrder: "asc" },
+  });
+  const categories = ["interior", "exterior", "paint", "wheels"] as const;
+
+  async function toggleImage(formData: FormData) {
+    "use server";
+    await requireAdmin();
+    const db = getDb();
+    const id = String(formData.get("id"));
+    const isActive = String(formData.get("isActive")) === "true";
+    await db.galleryImage.update({ where: { id }, data: { isActive } });
+    revalidatePath("/admin/gallery");
+  }
+
+  async function removeImage(formData: FormData) {
+    "use server";
+    await requireAdmin();
+    const db = getDb();
+    const id = String(formData.get("id"));
+    await db.galleryImage.delete({ where: { id } });
+    revalidatePath("/admin/gallery");
+  }
+
+  async function moveImage(formData: FormData) {
+    "use server";
+    await requireAdmin();
+    const db = getDb();
+    const id = String(formData.get("id"));
+    const direction = String(formData.get("direction"));
+    const items = await db.galleryImage.findMany({
+      orderBy: { sortOrder: "asc" },
+    });
+    const index = items.findIndex((image) => image.id === id);
+    if (index === -1) return;
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= items.length) return;
+    const current = items[index];
+    const swap = items[swapIndex];
+    await db.$transaction([
+      db.galleryImage.update({
+        where: { id: current.id },
+        data: { sortOrder: swap.sortOrder },
+      }),
+      db.galleryImage.update({
+        where: { id: swap.id },
+        data: { sortOrder: current.sortOrder },
+      }),
+    ]);
+    revalidatePath("/admin/gallery");
+  }
+
+  async function updateCategory(formData: FormData) {
+    "use server";
+    await requireAdmin();
+    const db = getDb();
+    const id = String(formData.get("id"));
+    const category = String(formData.get("category"));
+    await db.galleryImage.update({
+      where: { id },
+      data: { category: category as never },
+    });
+    revalidatePath("/admin/gallery");
+  }
+
+  async function updateAlt(formData: FormData) {
+    "use server";
+    await requireAdmin();
+    const db = getDb();
+    const id = String(formData.get("id"));
+    const alt = String(formData.get("alt") || "");
+    await db.galleryImage.update({
+      where: { id },
+      data: { alt },
+    });
+    revalidatePath("/admin/gallery");
+  }
+
+  return (
+    <div className="grid gap-6">
+      <Card>
+        <div className="text-sm font-semibold">Upload new image</div>
+        <div className="mt-4">
+          <GalleryUpload />
+        </div>
+      </Card>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {images.map((image) => (
+          <Card key={image.id} className="grid gap-3">
+            <div className="aspect-[4/3] rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] flex items-center justify-center">
+              {image.alt}
+            </div>
+            <form action={updateAlt} className="flex flex-wrap items-center gap-2 text-xs">
+              <input type="hidden" name="id" value={image.id} />
+              <input
+                name="alt"
+                defaultValue={image.alt}
+                className="input-surface flex-1 rounded-xl px-3 py-2 text-xs"
+                placeholder="Image title"
+              />
+              <button className="rounded-full border border-[var(--border)] px-3 py-2 text-xs">
+                Save title
+              </button>
+            </form>
+            <form action={updateCategory} className="flex flex-wrap items-center gap-2 text-xs">
+              <input type="hidden" name="id" value={image.id} />
+              <select
+                name="category"
+                defaultValue={image.category}
+                className="input-surface rounded-xl px-3 py-2 text-xs capitalize"
+              >
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              <button className="rounded-full border border-[var(--border)] px-3 py-2 text-xs">
+                Save type
+              </button>
+            </form>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <form action={toggleImage}>
+                <input type="hidden" name="id" value={image.id} />
+                <input type="hidden" name="isActive" value={(!image.isActive).toString()} />
+                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                  {image.isActive ? "Deactivate" : "Activate"}
+                </button>
+              </form>
+              <form action={moveImage}>
+                <input type="hidden" name="id" value={image.id} />
+                <input type="hidden" name="direction" value="up" />
+                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                  Move up
+                </button>
+              </form>
+              <form action={moveImage}>
+                <input type="hidden" name="id" value={image.id} />
+                <input type="hidden" name="direction" value="down" />
+                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                  Move down
+                </button>
+              </form>
+              <form action={removeImage}>
+                <input type="hidden" name="id" value={image.id} />
+                <button className="rounded-full border border-red-200 px-3 py-2 text-red-600">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
