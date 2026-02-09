@@ -89,7 +89,7 @@ export default async function ServicesPage() {
                 <div className="text-lg font-semibold">{addOn.name}</div>
                 <p className="text-sm text-[var(--muted)]">{addOn.description}</p>
                 <div className="text-sm font-semibold text-[var(--accent)]">
-                  + {formatPrice(addOn.priceCents)}
+                  Starts at {formatPrice(addOn.priceCents)}
                 </div>
               </Card>
             ))}

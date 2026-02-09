@@ -1,0 +1,122 @@
+@media (max-width: 640px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .mobile-hide {
+    display: none !important;
+  }
+
+  .mobile-stack {
+    display: grid;
+    gap: 16px;
+  }
+
+  .mobile-hero h1 {
+    font-size: clamp(28px, 7vw, 36px);
+    line-height: 1.15;
+  }
+
+  .mobile-hero p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .mobile-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .mobile-section {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .mobile-card {
+    padding: 14px !important;
+  }
+
+  .mobile-shadow-soft {
+    box-shadow: none !important;
+  }
+
+  .mobile-nav-links a:nth-child(n + 7) {
+    display: none;
+  }
+
+  .mobile-logo {
+    height: 56px !important;
+    width: 140px !important;
+  }
+
+  .navbar {
+    padding: 8px 12px;
+  }
+
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 52px;
+    flex-wrap: nowrap;
+  }
+
+  .brand-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+  }
+
+  .nav-toggle {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+  }
+
+  .brand-text {
+    margin-left: auto;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60vw;
+    text-align: right;
+  }
+
+  .mobile-pricing-grid > *:nth-child(n + 3) {
+    display: none;
+  }
+
+  .mobile-reviews-grid > *:nth-child(n + 3) {
+    display: none;
+  }
+
+  .mobile-gallery-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .admin-scope .md\\:grid-cols-2,
+  .admin-scope .md\\:grid-cols-3,
+  .admin-scope .lg\\:grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-scope .text-xs {
+    font-size: 14px;
+  }
+
+  .admin-scope .text-sm {
+    font-size: 15px;
+  }
+}

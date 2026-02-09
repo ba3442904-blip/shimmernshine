@@ -69,6 +69,16 @@ body {
   line-height: 1.6;
 }
 
+input[type="number"] {
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
 .dark body,
 [data-theme="dark"] body {
   background: radial-gradient(circle at top, #0b1120 0%, var(--bg) 55%);

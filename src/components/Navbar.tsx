@@ -30,27 +30,39 @@ export default function Navbar({
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--divider)] bg-[color-mix(in srgb, var(--bg) 92%, transparent)] backdrop-blur">
+    <header className="navbar sticky top-0 z-50 border-b border-[var(--divider)] bg-[color-mix(in srgb, var(--bg) 92%, transparent)] backdrop-blur">
       <Container>
-        <div className="grid items-center justify-items-center gap-6 py-4 lg:grid-cols-[auto_auto_auto] lg:justify-center">
+        <div className="nav-row flex items-center justify-between gap-3 py-3 lg:grid lg:grid-cols-[auto_auto_auto] lg:justify-center lg:gap-6 lg:py-4">
+          <div className="brand-left flex items-center gap-2">
+            <Link href="/" className="inline-flex items-center justify-center text-[var(--text)]">
+              <span className="mobile-logo relative flex h-16 w-36 items-center justify-center overflow-hidden rounded-2xl border border-[var(--border2)] bg-[var(--surface2)] shadow-sm sm:h-20 sm:w-48 lg:h-32 lg:w-80">
+                <Image
+                  src="/shimmernshine-logo.jpg"
+                  alt="Shimmer N Shine Detailing logo"
+                  width={320}
+                  height={128}
+                  className="h-full w-full object-cover"
+                  priority
+                />
+              </span>
+            </Link>
+
+            <button
+              type="button"
+              className="nav-toggle inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--text)] shadow-sm lg:hidden"
+              aria-label="Open menu"
+              aria-expanded={open}
+              onClick={() => setOpen(true)}
+            >
+              <MenuIcon />
+            </button>
+          </div>
+
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-4 text-lg font-semibold text-center text-[var(--text)]"
+            className="brand-text text-sm font-semibold text-[var(--text)] sm:text-base lg:text-lg"
           >
-            <span className="relative flex h-20 w-48 items-center justify-center overflow-hidden rounded-2xl border border-[var(--border2)] bg-[var(--surface2)] shadow-sm mr-3 sm:h-24 sm:w-64 lg:h-32 lg:w-80 lg:mr-4">
-              <Image
-                src="/shimmernshine-logo.jpg"
-                alt="Shimmer N Shine Detailing logo"
-                width={320}
-                height={128}
-                className="h-full w-full object-cover"
-                priority
-              />
-            </span>
-            <span>
-              Shimmer <span className="text-[var(--accent)]">N</span> Shine
-              Detailing
-            </span>
+            Shimmer <span className="text-[var(--accent)]">N</span> Shine Detailing
           </Link>
 
           <nav className="hidden items-center justify-center gap-6 text-sm font-semibold lg:flex">
@@ -72,16 +84,6 @@ export default function Navbar({
             </Button>
             <Button href={bookingHref}>Book Now</Button>
           </div>
-
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--text)] shadow-sm lg:hidden"
-            aria-label="Open menu"
-            aria-expanded={open}
-            onClick={() => setOpen(true)}
-          >
-            <MenuIcon />
-          </button>
         </div>
       </Container>
 
