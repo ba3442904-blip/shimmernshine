@@ -26,7 +26,7 @@ export default function Button({
   className = "",
   type = "button",
 }: ButtonProps) {
-  const classes = `inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-center no-underline hover:no-underline transition ${variantStyles[variant]} ${className}`;
+  const classes = `inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-base font-semibold text-center no-underline hover:no-underline transition sm:w-auto sm:text-sm ${variantStyles[variant]} ${className}`;
 
   if (href) {
     return (

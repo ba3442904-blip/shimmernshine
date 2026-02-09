@@ -37,13 +37,13 @@ export default function Navbar({
             href="/"
             className="inline-flex items-center justify-center gap-4 text-lg font-semibold text-center text-[var(--text)]"
           >
-            <span className="relative flex h-32 w-80 items-center justify-center overflow-hidden rounded-2xl border border-[var(--border2)] bg-[var(--surface2)] shadow-sm mr-4">
+            <span className="relative flex h-20 w-48 items-center justify-center overflow-hidden rounded-2xl border border-[var(--border2)] bg-[var(--surface2)] shadow-sm mr-3 sm:h-24 sm:w-64 lg:h-32 lg:w-80 lg:mr-4">
               <Image
                 src="/shimmernshine-logo.jpg"
                 alt="Shimmer N Shine Detailing logo"
                 width={320}
                 height={128}
-                className="h-32 w-80 object-cover"
+                className="h-full w-full object-cover"
                 priority
               />
             </span>

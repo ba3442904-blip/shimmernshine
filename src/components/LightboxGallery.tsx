@@ -35,7 +35,7 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
           <button
             key={chip.value}
             type="button"
-            className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold transition ${
               filter === chip.value
                 ? "bg-[var(--accent2)] text-white"
                 : "bg-[var(--surface2)] text-[var(--muted)]"

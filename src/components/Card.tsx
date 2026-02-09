@@ -9,7 +9,7 @@ export default function Card({
 }) {
   return (
     <div
-      className={`card-surface card-hover p-6 ${className}`}
+      className={`card-surface card-hover p-5 sm:p-6 ${className}`}
     >
       {children}
     </div>

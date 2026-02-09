@@ -89,6 +89,8 @@ export default function LeadForm({
           <input
             name="phone"
             required
+            type="tel"
+            inputMode="tel"
             className="input-surface rounded-xl px-4 py-3 text-sm"
           />
         </label>
@@ -131,6 +133,7 @@ export default function LeadForm({
           <input
             name="preferredDate"
             placeholder="MM/DD"
+            inputMode="numeric"
             className="input-surface rounded-xl px-4 py-3 text-sm"
           />
         </label>
