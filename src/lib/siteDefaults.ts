@@ -36,6 +36,9 @@ export const siteDefaults = {
     instagram: "https://instagram.com",
     facebook: "https://facebook.com",
   },
+  hero: {
+    imageUrl: "",
+  },
   seo: {
     title: "Shimmer N Shine Detailing | Mobile Auto Detailing",
     description:

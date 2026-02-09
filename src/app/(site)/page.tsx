@@ -56,8 +56,17 @@ export default async function HomePage() {
             <div className="grid gap-4">
               <Card className="bg-gradient-to-br from-[var(--surface)] via-[var(--surface2)] to-[#0b1020]">
                 <div className="text-sm font-semibold">Detailing result preview</div>
-                <div className="mt-4 aspect-[16/10] rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center">
-                  Hero image placeholder
+                <div className="mt-4 aspect-[16/10] overflow-hidden rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center">
+                  {settings.hero?.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={settings.hero.imageUrl}
+                      alt="Hero detailing"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    "Hero image placeholder"
+                  )}
                 </div>
               </Card>
               <InstantQuoteForm services={services} />
@@ -94,20 +103,6 @@ export default async function HomePage() {
             style={{ border: "none", overflow: "hidden", width: "100%", height: "510px" }}
             title="Posts from Instagram"
           />
-        </Container>
-      </section>
-
-      <section>
-        <Container>
-          <div className="card-surface card-hover grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3">
-            {["Google Reviews", "Locally Owned", "Certified Products", "Premium Finish", "Insured & Trusted", "Mobile Service"].map(
-              (badge) => (
-                <div key={badge} className="text-sm font-semibold text-[var(--muted)]">
-                  {badge}
-                </div>
-              )
-            )}
-          </div>
         </Container>
       </section>
 
@@ -166,32 +161,6 @@ export default async function HomePage() {
                 </div>
               ))}
             </div>
-          </div>
-        </Container>
-      </section>
-
-      <section>
-        <Container>
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                Before & After
-              </div>
-              <h2 className="mt-3 text-3xl font-semibold">See the shine.</h2>
-            </div>
-            <Link href="/gallery" className="text-sm font-semibold text-[var(--primary)]">
-              View gallery →
-            </Link>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {gallery.slice(0, 6).map((image) => (
-              <div
-                key={image.id}
-                className="aspect-[4/3] rounded-3xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center"
-              >
-                {image.alt}
-              </div>
-            ))}
           </div>
         </Container>
       </section>

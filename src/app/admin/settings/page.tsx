@@ -59,6 +59,10 @@ export default async function AdminSettingsPage() {
       facebook: String(formData.get("facebook") || ""),
     };
 
+    const hero = {
+      imageUrl: String(formData.get("heroImageUrl") || ""),
+    };
+
     const trustBadges = String(formData.get("trustBadges") || "")
       .split(",")
       .map((badge) => badge.trim())
@@ -71,6 +75,7 @@ export default async function AdminSettingsPage() {
       ["booking", booking],
       ["seo", seo],
       ["socials", socials],
+      ["hero", hero],
       ["trustBadges", trustBadges],
     ] as const;
 
@@ -233,6 +238,14 @@ export default async function AdminSettingsPage() {
               className="input-surface rounded-xl px-3 py-2 text-sm"
             />
           </div>
+
+          <div className="text-sm font-semibold">Hero</div>
+          <input
+            name="heroImageUrl"
+            defaultValue={settings.hero.imageUrl}
+            placeholder="Hero image URL"
+            className="input-surface rounded-xl px-3 py-2 text-sm"
+          />
 
           <div className="text-sm font-semibold">Trust badges</div>
           <input
