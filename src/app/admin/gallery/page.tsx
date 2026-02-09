@@ -27,7 +27,11 @@ export default async function AdminGalleryPage() {
     await requireAdmin();
     const db = getDb();
     const id = String(formData.get("id"));
-    await db.galleryImage.delete({ where: { id } });
+    const deleted = await db.galleryImage.delete({ where: { id } });
+    await db.galleryImage.updateMany({
+      where: { sortOrder: { gt: deleted.sortOrder } },
+      data: { sortOrder: { decrement: 1 } },
+    });
     revalidatePath("/admin/gallery");
   }
 
