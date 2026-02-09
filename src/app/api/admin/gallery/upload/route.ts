@@ -57,7 +57,10 @@ export async function POST(req: Request) {
             { status: 500 }
           );
         }
-        imagePath = `${publicUrl.replace(/\\/$/, "")}/${key}`;
+        const baseUrl = publicUrl.endsWith("/")
+          ? publicUrl.slice(0, -1)
+          : publicUrl;
+        imagePath = `${baseUrl}/${key}`;
       } else {
         const { writeFile, mkdir } = await import("fs/promises");
         const path = await import("path");
