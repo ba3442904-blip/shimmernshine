@@ -39,6 +39,9 @@ export const siteDefaults = {
   hero: {
     imageUrl: "",
   },
+  homepagePricing: {
+    serviceSlugs: [],
+  },
   seo: {
     title: "Shimmer N Shine Detailing | Mobile Auto Detailing",
     description:

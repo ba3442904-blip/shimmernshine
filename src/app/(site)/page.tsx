@@ -18,6 +18,30 @@ export default async function HomePage() {
     getPublicReviews(true),
     getPublicFaq(),
   ]);
+  const homepageSlugs = settings.homepagePricing?.serviceSlugs || [];
+  const pricingServices =
+    homepageSlugs.length > 0
+      ? homepageSlugs
+          .map((slug) => services.find((service) => service.slug === slug))
+          .filter((service): service is (typeof services)[number] => Boolean(service))
+      : services.slice(0, 3);
+
+  function getStartingPrice(service: (typeof services)[number]) {
+    if (!service.priceTiers?.length) return "$0+";
+    const starting = service.priceTiers.find((tier) => tier.isStartingAt);
+    const cents = starting?.priceCents ?? Math.min(...service.priceTiers.map((tier) => tier.priceCents));
+    return `$${Math.round(cents / 100)}+`;
+  }
+
+  function getFeatures(service: (typeof services)[number]) {
+    const fromLong = service.longDescription
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+    if (fromLong.length) return fromLong.slice(0, 4);
+    if (service.shortDescription) return [service.shortDescription];
+    return ["Custom detailing package"];
+  }
 
   return (
     <div className="flex flex-col gap-20 pb-24 pt-12">
@@ -129,44 +153,6 @@ export default async function HomePage() {
 
       <section>
         <Container>
-          <div className="card-surface card-hover grid gap-10 p-8 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                How it works
-              </div>
-              <h2 className="mt-3 text-3xl font-semibold">Booking is simple.</h2>
-              <ol className="mt-6 grid gap-4 text-sm text-[var(--muted)]">
-                {[
-                  "Pick a package",
-                  "Choose a time",
-                  "We come to you",
-                  "Drive off happy",
-                ].map((step, index) => (
-                  <li key={step} className="flex items-center gap-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--primary)] text-white text-xs font-semibold">
-                      {index + 1}
-                    </span>
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {gallery.slice(0, 4).map((image) => (
-                <div
-                  key={image.id}
-                  className="aspect-[4/3] rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center"
-                >
-                  {image.alt}
-                </div>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section>
-        <Container>
           <div className="mb-8 flex flex-col gap-2">
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               Pricing
@@ -177,33 +163,16 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            <PricingCard
-              title="Refresh"
-              description="Quick clean for daily drivers."
-              price="$149+"
-              features={["Exterior wash", "Interior wipe-down", "Light vacuum"]}
-            />
-            <PricingCard
-              title="Restore"
-              description="Deep clean inside and out."
-              price="$279+"
-              features={[
-                "Interior shampoo",
-                "Clay bar treatment",
-                "Protective sealant",
-              ]}
-              highlight
-            />
-            <PricingCard
-              title="Showroom"
-              description="Complete detailing experience."
-              price="$369+"
-              features={[
-                "Full interior detail",
-                "Gloss enhancement",
-                "Wheel + tire dressing",
-              ]}
-            />
+            {pricingServices.map((service, index) => (
+              <PricingCard
+                key={service.id}
+                title={service.name}
+                description={service.shortDescription}
+                price={getStartingPrice(service)}
+                features={getFeatures(service)}
+                highlight={index === 1}
+              />
+            ))}
           </div>
         </Container>
       </section>
