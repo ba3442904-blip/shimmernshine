@@ -118,11 +118,15 @@ export default async function AdminReviewsPage() {
             <p className="text-sm text-[var(--muted)]">{review.text}</p>
             <form action={updateReview} className="grid gap-2">
               <input type="hidden" name="id" value={review.id} />
-              <input
-                name="name"
-                defaultValue={review.name}
-                className="input-surface rounded-xl px-3 py-2 text-sm"
-              />
+              <label className="grid gap-1 text-xs font-semibold">
+                Customer name
+                <input
+                  name="name"
+                  defaultValue={review.name}
+                  className="input-surface rounded-xl px-3 py-2 text-sm font-normal"
+                  required
+                />
+              </label>
               <textarea
                 name="text"
                 defaultValue={review.text}
@@ -134,14 +138,20 @@ export default async function AdminReviewsPage() {
                 defaultValue={review.date}
                 className="input-surface rounded-xl px-3 py-2 text-sm"
               />
-              <input
-                name="stars"
-                type="number"
-                min="1"
-                max="5"
-                defaultValue={review.stars}
-                className="input-surface rounded-xl px-3 py-2 text-sm"
-              />
+              <label className="grid gap-1 text-xs font-semibold">
+                Stars (1-5)
+                <input
+                  name="stars"
+                  type="number"
+                  min="1"
+                  max="5"
+                  step="1"
+                  inputMode="numeric"
+                  defaultValue={review.stars}
+                  className="input-surface rounded-xl px-3 py-2 text-sm font-normal"
+                  required
+                />
+              </label>
               <button className="self-start rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
                 Save changes
               </button>
