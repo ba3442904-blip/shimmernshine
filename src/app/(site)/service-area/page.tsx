@@ -40,13 +40,17 @@ export default async function ServiceAreaPage() {
                 {serviceArea.travelFeePolicy}
               </p>
             </div>
-            <div className="rounded-3xl bg-[var(--surface2)] p-6 text-xs font-semibold text-[var(--muted)] flex items-center justify-center">
+            <div className="rounded-3xl bg-[var(--surface2)] p-4 text-xs font-semibold text-[var(--muted)] flex items-center justify-center">
               {serviceArea.mapEmbedUrl ? (
-                <iframe
-                  title="Service area map"
-                  src={serviceArea.mapEmbedUrl}
-                  className="h-64 w-full rounded-2xl border-0"
-                />
+                <div className="relative h-80 w-full overflow-hidden rounded-2xl lg:h-96">
+                  <iframe
+                    title="Service area map"
+                    src={serviceArea.mapEmbedUrl}
+                    scrolling="no"
+                    className="absolute left-1/2 top-1/2 h-[115%] w-[115%] border-0"
+                    style={{ transform: "translate(-50%, -50%) scale(0.9)" }}
+                  />
+                </div>
               ) : (
                 "Map placeholder"
               )}
