@@ -39,7 +39,7 @@ export default async function ReviewsPage() {
               We&apos;d love to hear about your experience.
             </p>
             <a
-              href="https://google.com"
+              href="https://www.google.com/maps/place/Shimmer+N+Shine+Mobile+Auto+Detailing/@39.0626914,-77.1138284,49087m/data=!3m1!1e3!4m18!1m9!3m8!1s0x6b7616c148430305:0x4cfe70c474dbb243!2sShimmer+N+Shine+Mobile+Auto+Detailing!8m2!3d39.0626914!4d-77.1138284!9m1!1b1!16s%2Fg%2F11xcg00m2k!3m7!1s0x6b7616c148430305:0x4cfe70c474dbb243!8m2!3d39.0626914!4d-77.1138284!9m1!1b1!16s%2Fg%2F11xcg00m2k?entry=ttu&g_ep=EgoyMDI2MDIwNC4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noreferrer"
               className="mt-4 inline-flex rounded-full bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white"
