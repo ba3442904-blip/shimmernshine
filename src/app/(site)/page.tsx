@@ -4,7 +4,6 @@ import Card from "@/components/Card";
 import Container from "@/components/Container";
 import FAQAccordion from "@/components/FAQAccordion";
 import InstantQuoteForm from "@/components/InstantQuoteForm";
-import PricingCard from "@/components/PricingCard";
 import ReviewCard from "@/components/ReviewCard";
 import ServiceCard from "@/components/ServiceCard";
 import Script from "next/script";
@@ -18,30 +17,6 @@ export default async function HomePage() {
     getPublicReviews(true),
     getPublicFaq(),
   ]);
-  const homepageSlugs = settings.homepagePricing?.serviceSlugs || [];
-  const pricingServices =
-    homepageSlugs.length > 0
-      ? homepageSlugs
-          .map((slug) => services.find((service) => service.slug === slug))
-          .filter((service): service is (typeof services)[number] => Boolean(service))
-      : services.slice(0, 3);
-
-  function getStartingPrice(service: (typeof services)[number]) {
-    if (!service.priceTiers?.length) return "$0+";
-    const starting = service.priceTiers.find((tier) => tier.isStartingAt);
-    const cents = starting?.priceCents ?? Math.min(...service.priceTiers.map((tier) => tier.priceCents));
-    return `$${Math.round(cents / 100)}+`;
-  }
-
-  function getFeatures(service: (typeof services)[number]) {
-    const fromLong = service.longDescription
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean);
-    if (fromLong.length) return fromLong.slice(0, 4);
-    if (service.shortDescription) return [service.shortDescription];
-    return ["Custom detailing package"];
-  }
 
   return (
     <div className="flex flex-col gap-20 pb-24 pt-12">
@@ -146,32 +121,6 @@ export default async function HomePage() {
           <div className="grid gap-6 md:grid-cols-3">
             {services.slice(0, 3).map((service) => (
               <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section>
-        <Container>
-          <div className="mb-8 flex flex-col gap-2">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-              Pricing
-            </div>
-            <h2 className="text-3xl font-semibold">Good, better, best.</h2>
-            <p className="text-sm text-[var(--muted)]">
-              Transparent starting prices with add-ons available.
-            </p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {pricingServices.map((service, index) => (
-              <PricingCard
-                key={service.id}
-                title={service.name}
-                description={service.shortDescription}
-                price={getStartingPrice(service)}
-                features={getFeatures(service)}
-                highlight={index === 1}
-              />
             ))}
           </div>
         </Container>

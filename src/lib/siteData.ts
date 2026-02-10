@@ -7,7 +7,6 @@ const keys = [
   "serviceArea",
   "socials",
   "hero",
-  "homepagePricing",
   "seo",
   "booking",
   "trustBadges",
@@ -45,10 +44,6 @@ export async function getSettings() {
       ),
       socials: safeParse(map.get("socials") ?? null, siteDefaults.socials),
       hero: safeParse(map.get("hero") ?? null, siteDefaults.hero),
-      homepagePricing: safeParse(
-        map.get("homepagePricing") ?? null,
-        siteDefaults.homepagePricing
-      ),
       seo: safeParse(map.get("seo") ?? null, siteDefaults.seo),
       booking: safeParse(map.get("booking") ?? null, siteDefaults.booking),
       trustBadges: safeParse(
@@ -63,7 +58,6 @@ export async function getSettings() {
       serviceArea: siteDefaults.serviceArea,
       socials: siteDefaults.socials,
       hero: siteDefaults.hero,
-      homepagePricing: siteDefaults.homepagePricing,
       seo: siteDefaults.seo,
       booking: siteDefaults.booking,
       trustBadges: siteDefaults.trustBadges,

@@ -63,13 +63,6 @@ export default async function AdminSettingsPage() {
       imageUrl: String(formData.get("heroImageUrl") || ""),
     };
 
-    const homepagePricing = {
-      serviceSlugs: String(formData.get("homepagePricingSlugs") || "")
-        .split(",")
-        .map((slug) => slug.trim())
-        .filter(Boolean),
-    };
-
     const trustBadges = String(formData.get("trustBadges") || "")
       .split(",")
       .map((badge) => badge.trim())
@@ -83,7 +76,6 @@ export default async function AdminSettingsPage() {
       ["seo", seo],
       ["socials", socials],
       ["hero", hero],
-      ["homepagePricing", homepagePricing],
       ["trustBadges", trustBadges],
     ] as const;
 
@@ -252,14 +244,6 @@ export default async function AdminSettingsPage() {
             name="heroImageUrl"
             defaultValue={settings.hero.imageUrl}
             placeholder="Hero image URL"
-            className="input-surface rounded-xl px-3 py-2 text-sm"
-          />
-
-          <div className="text-sm font-semibold">Homepage pricing packages</div>
-          <input
-            name="homepagePricingSlugs"
-            defaultValue={settings.homepagePricing.serviceSlugs.join(", ")}
-            placeholder="Service slugs (comma separated)"
             className="input-surface rounded-xl px-3 py-2 text-sm"
           />
 
