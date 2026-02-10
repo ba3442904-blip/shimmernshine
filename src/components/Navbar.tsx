@@ -56,6 +56,7 @@ export default function Navbar({
             >
               <MenuIcon />
             </button>
+            <ThemeToggle className="lg:hidden px-2 py-2 text-[10px]" />
           </div>
 
           <div className="hidden items-center justify-center gap-6 lg:flex lg:mx-auto">
