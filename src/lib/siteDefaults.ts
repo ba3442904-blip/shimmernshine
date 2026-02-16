@@ -52,6 +52,7 @@ export const siteDefaults = {
   integrations: {
     instagramEmbedUrl: "https://snapwidget.com/embed/1117801",
     googleReviewsEmbedUrl: "",
+    googleReviewsElfsightAppId: "",
   },
   trustBadges: ["5-star rated", "Fully insured", "We come to you", "Same-day slots"],
 };

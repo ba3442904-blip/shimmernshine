@@ -65,6 +65,9 @@ export default async function AdminSettingsPage() {
 
     const integrations = {
       instagramEmbedUrl: String(formData.get("instagramEmbedUrl") || ""),
+      googleReviewsElfsightAppId: String(
+        formData.get("googleReviewsElfsightAppId") || ""
+      ),
       googleReviewsEmbedUrl: String(formData.get("googleReviewsEmbedUrl") || ""),
     };
 
@@ -262,10 +265,16 @@ export default async function AdminSettingsPage() {
               className="input-surface rounded-xl px-3 py-2 text-sm"
             />
             <input
+              name="googleReviewsElfsightAppId"
+              defaultValue={settings.integrations.googleReviewsElfsightAppId}
+              placeholder="Google reviews Elfsight app ID"
+              className="input-surface rounded-xl px-3 py-2 text-sm"
+            />
+            <input
               name="googleReviewsEmbedUrl"
               defaultValue={settings.integrations.googleReviewsEmbedUrl}
-              placeholder="Google reviews embed URL"
-              className="input-surface rounded-xl px-3 py-2 text-sm"
+              placeholder="Legacy Google reviews iframe URL (optional)"
+              className="input-surface rounded-xl px-3 py-2 text-sm md:col-span-2"
             />
           </div>
 

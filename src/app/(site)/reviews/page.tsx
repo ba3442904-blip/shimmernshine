@@ -1,4 +1,5 @@
 import Container from "@/components/Container";
+import ElfsightGoogleReviews from "@/components/ElfsightGoogleReviews";
 import ReviewCard from "@/components/ReviewCard";
 import { getPublicReviews, getSettings } from "@/lib/siteData";
 
@@ -33,7 +34,11 @@ export default async function ReviewsPage() {
       </section>
       <section>
         <Container>
-          {settings.integrations.googleReviewsEmbedUrl ? (
+          {settings.integrations.googleReviewsElfsightAppId ? (
+            <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface2)] p-4">
+              <ElfsightGoogleReviews appId={settings.integrations.googleReviewsElfsightAppId} />
+            </div>
+          ) : settings.integrations.googleReviewsEmbedUrl ? (
             <iframe
               src={settings.integrations.googleReviewsEmbedUrl}
               className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface2)]"
