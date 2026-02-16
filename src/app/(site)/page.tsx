@@ -85,14 +85,14 @@ export default async function HomePage() {
               </p>
             </div>
             <Button
-              href="https://www.instagram.com/shimmer.n.shine_autodetailing/"
+              href={settings.socials.instagram || "https://www.instagram.com/"}
               variant="secondary"
             >
               Follow on Instagram
             </Button>
           </div>
           <iframe
-            src="https://snapwidget.com/embed/1117801"
+            src={settings.integrations.instagramEmbedUrl}
             className="snapwidget-widget snapwidget-embed"
             allowTransparency
             frameBorder={0}

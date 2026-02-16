@@ -18,7 +18,7 @@ export const siteDefaults = {
   },
   serviceArea: {
     center: "Portland, OR",
-    radiusMiles: 25,
+    radiusMiles: 5,
     towns: [
       "Portland",
       "Beaverton",
@@ -29,7 +29,7 @@ export const siteDefaults = {
       "Tualatin",
       "Milwaukie",
     ],
-    travelFeePolicy: "Trips outside the 25-mile radius may include a travel fee.",
+    travelFeePolicy: "Trips outside the 5-mile radius may include a travel fee.",
     mapEmbedUrl: "",
   },
   socials: {
@@ -48,6 +48,10 @@ export const siteDefaults = {
   booking: {
     mode: "form",
     bookingUrl: "",
+  },
+  integrations: {
+    instagramEmbedUrl: "https://snapwidget.com/embed/1117801",
+    googleReviewsEmbedUrl: "",
   },
   trustBadges: ["5-star rated", "Fully insured", "We come to you", "Same-day slots"],
 };
