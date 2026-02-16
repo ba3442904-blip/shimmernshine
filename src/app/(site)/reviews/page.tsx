@@ -1,10 +1,9 @@
 import Container from "@/components/Container";
 import ElfsightGoogleReviews from "@/components/ElfsightGoogleReviews";
-import ReviewCard from "@/components/ReviewCard";
-import { getPublicReviews, getSettings } from "@/lib/siteData";
+import { getSettings } from "@/lib/siteData";
 
 export default async function ReviewsPage() {
-  const [reviews, settings] = await Promise.all([getPublicReviews(), getSettings()]);
+  const settings = await getSettings();
 
   return (
     <div className="flex flex-col gap-16 pb-24 pt-12">
@@ -20,15 +19,6 @@ export default async function ReviewsPage() {
             <p className="mt-4 text-lg text-[var(--muted)]">
               Consistent service, trusted results, and a spotless finish.
             </p>
-          </div>
-        </Container>
-      </section>
-      <section>
-        <Container>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {reviews.map((review) => (
-              <ReviewCard key={review.id} review={review} />
-            ))}
           </div>
         </Container>
       </section>
