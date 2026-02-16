@@ -3,6 +3,7 @@ import { Fraunces, Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import "./mobile.css";
 import NumberInputGuard from "@/components/NumberInputGuard";
+import ThemeSync from "@/components/ThemeSync";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${fraunces.variable} ${roboto.variable} antialiased`}
       >
+        <ThemeSync />
         <NumberInputGuard />
         {children}
       </body>

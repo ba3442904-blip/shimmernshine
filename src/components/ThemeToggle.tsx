@@ -4,40 +4,38 @@ import { useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
 
-function getInitialTheme(): Theme {
+function getDeviceTheme(): Theme {
   if (typeof window === "undefined") {
     return "light";
-  }
-
-  const saved = window.localStorage.getItem("theme");
-  if (saved === "dark" || saved === "light") {
-    return saved;
   }
 
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export default function ThemeToggle({ className = "" }: { className?: string }) {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [theme, setTheme] = useState<Theme>(getDeviceTheme);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-  function toggleTheme() {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    window.localStorage.setItem("theme", next);
-  }
+    const syncTheme = () => {
+      setTheme(getDeviceTheme());
+    };
+
+    syncTheme();
+    mediaQuery.addEventListener("change", syncTheme);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncTheme);
+    };
+  }, []);
 
   return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      className={`rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold text-[var(--muted)] hover:text-[var(--accent)] ${className}`}
+    <span
+      className={`inline-flex rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold text-[var(--muted)] ${className}`}
+      aria-live="polite"
     >
-      {theme === "dark" ? "Light mode" : "Dark mode"}
-    </button>
+      Device: {theme === "dark" ? "Dark mode" : "Light mode"}
+    </span>
   );
 }
