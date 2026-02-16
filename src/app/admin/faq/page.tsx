@@ -55,7 +55,7 @@ export default async function AdminFaqPage() {
   return (
     <div className="grid gap-6">
       <Card>
-        <div className="text-sm font-semibold">Add FAQ</div>
+        <div className="text-sm font-semibold">Add FAQs</div>
         <form action={createFaq} className="mt-4 grid gap-3">
           <input
             name="question"
@@ -71,7 +71,7 @@ export default async function AdminFaqPage() {
             required
           />
           <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
-            Add FAQ
+            Add FAQs
           </button>
         </form>
       </Card>
