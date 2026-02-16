@@ -5,15 +5,13 @@ import Container from "@/components/Container";
 import FAQAccordion from "@/components/FAQAccordion";
 import ElfsightGoogleReviews from "@/components/ElfsightGoogleReviews";
 import InstantQuoteForm from "@/components/InstantQuoteForm";
-import ReviewCard from "@/components/ReviewCard";
 import ServiceCard from "@/components/ServiceCard";
-import { getPublicFaq, getPublicReviews, getPublicServices, getSettings } from "@/lib/siteData";
+import { getPublicFaq, getPublicServices, getSettings } from "@/lib/siteData";
 
 export default async function HomePage() {
-  const [settings, services, reviews, faqs] = await Promise.all([
+  const [settings, services, faqs] = await Promise.all([
     getSettings(),
     getPublicServices(),
-    getPublicReviews(true),
     getPublicFaq(),
   ]);
 
@@ -120,27 +118,6 @@ export default async function HomePage() {
           <div className="grid gap-6 md:grid-cols-3">
             {services.slice(0, 3).map((service) => (
               <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section>
-        <Container>
-          <div className="mb-8 flex items-end justify-between">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                Reviews
-              </div>
-              <h2 className="mt-3 text-3xl font-semibold">Trusted by busy drivers.</h2>
-            </div>
-            <Link href="/reviews" className="text-sm font-semibold text-[var(--primary)]">
-              Read all reviews →
-            </Link>
-          </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {reviews.map((review) => (
-              <ReviewCard key={review.id} review={review} />
             ))}
           </div>
         </Container>
