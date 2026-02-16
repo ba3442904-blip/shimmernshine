@@ -11,7 +11,7 @@ export default async function FAQPage() {
         <Container>
           <div className="max-w-3xl">
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-              FAQ
+              FAQs
             </div>
             <h1 className="mt-3 text-4xl font-semibold">Questions before you book?</h1>
             <p className="mt-4 text-lg text-[var(--muted)]">

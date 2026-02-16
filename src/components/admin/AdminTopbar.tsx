@@ -12,7 +12,7 @@ const links = [
   { label: "Add-ons", href: "/admin/addons" },
   { label: "Gallery", href: "/admin/gallery" },
   { label: "Reviews", href: "/admin/reviews" },
-  { label: "FAQ", href: "/admin/faq" },
+  { label: "FAQs", href: "/admin/faq" },
   { label: "Settings", href: "/admin/settings" },
 ];
 

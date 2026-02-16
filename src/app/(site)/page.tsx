@@ -187,7 +187,7 @@ export default async function HomePage() {
         <Container>
           <div className="mb-6">
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-              FAQ
+              FAQs
             </div>
             <h2 className="mt-3 text-3xl font-semibold">Good to know before you book.</h2>
           </div>
