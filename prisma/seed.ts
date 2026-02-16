@@ -28,6 +28,7 @@ async function main() {
     { key: "socials", value: JSON.stringify(siteDefaults.socials) },
     { key: "seo", value: JSON.stringify(siteDefaults.seo) },
     { key: "booking", value: JSON.stringify(siteDefaults.booking) },
+    { key: "integrations", value: JSON.stringify(siteDefaults.integrations) },
     { key: "trustBadges", value: JSON.stringify(siteDefaults.trustBadges) },
   ];
 
