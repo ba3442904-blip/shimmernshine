@@ -26,7 +26,7 @@ export default async function ServiceAreaPage() {
 
       <section>
         <Container>
-          <div className="card-surface card-hover p-8">
+          <div className="card-surface card-hover grid gap-10 p-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <div className="text-sm font-semibold">Towns we serve</div>
               <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-[var(--muted)]">
@@ -39,6 +39,21 @@ export default async function ServiceAreaPage() {
               <p className="mt-4 text-sm text-[var(--muted)]">
                 {serviceArea.travelFeePolicy}
               </p>
+            </div>
+            <div className="rounded-3xl bg-[var(--surface2)] p-4 text-xs font-semibold text-[var(--muted)] flex items-center justify-center">
+              {serviceArea.mapEmbedUrl ? (
+                <div className="relative h-80 w-full overflow-hidden rounded-2xl lg:h-96">
+                  <iframe
+                    title="Service area map"
+                    src={serviceArea.mapEmbedUrl}
+                    scrolling="no"
+                    className="absolute left-1/2 top-1/2 h-[115%] w-[115%] border-0"
+                    style={{ transform: "translate(-50%, -50%) scale(0.9)" }}
+                  />
+                </div>
+              ) : (
+                "Map placeholder"
+              )}
             </div>
           </div>
         </Container>

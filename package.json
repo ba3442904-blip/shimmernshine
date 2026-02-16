@@ -7,13 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate",
     "prisma:seed": "tsx prisma/seed.ts",
-    "render:build": "npm run build",
-    "render:start": "npx prisma migrate deploy && npm run start"
+    "d1:seed": "tsx scripts/seed-d1.ts",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:dev": "wrangler dev"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.862.0",
+    "@prisma/adapter-d1": "^6.19.2",
     "@prisma/client": "^6.19.2",
     "bcryptjs": "^3.0.3",
     "next": "16.1.6",
@@ -28,11 +31,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@opennextjs/cloudflare": "^1.16.3",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.59.2"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

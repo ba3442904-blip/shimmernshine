@@ -6,12 +6,14 @@ import FAQAccordion from "@/components/FAQAccordion";
 import InstantQuoteForm from "@/components/InstantQuoteForm";
 import ReviewCard from "@/components/ReviewCard";
 import ServiceCard from "@/components/ServiceCard";
-import { getPublicFaq, getPublicReviews, getPublicServices, getSettings } from "@/lib/siteData";
+import Script from "next/script";
+import { getPublicFaq, getPublicGallery, getPublicReviews, getPublicServices, getSettings } from "@/lib/siteData";
 
 export default async function HomePage() {
-  const [settings, services, reviews, faqs] = await Promise.all([
+  const [settings, services, gallery, reviews, faqs] = await Promise.all([
     getSettings(),
     getPublicServices(),
+    getPublicGallery(),
     getPublicReviews(true),
     getPublicFaq(),
   ]);
@@ -147,22 +149,27 @@ export default async function HomePage() {
 
       <section>
         <Container>
-          <div className="card-surface card-hover p-8">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-              Service area
+          <div className="card-surface card-hover grid gap-8 p-8 lg:grid-cols-[1fr_1fr]">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+                Service area
+              </div>
+              <h2 className="mt-3 text-3xl font-semibold">
+                We come to you within {settings.serviceArea.radiusMiles} miles.
+              </h2>
+              <p className="mt-3 text-sm text-[var(--muted)]">
+                {settings.serviceArea.travelFeePolicy}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-[var(--muted)]">
+                {settings.serviceArea.towns.map((town) => (
+                  <span key={town} className="rounded-full bg-[var(--surface2)] px-3 py-2">
+                    {town}
+                  </span>
+                ))}
+              </div>
             </div>
-            <h2 className="mt-3 text-3xl font-semibold">
-              We come to you within {settings.serviceArea.radiusMiles} miles.
-            </h2>
-            <p className="mt-3 text-sm text-[var(--muted)]">
-              {settings.serviceArea.travelFeePolicy}
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-[var(--muted)]">
-              {settings.serviceArea.towns.map((town) => (
-                <span key={town} className="rounded-full bg-[var(--surface2)] px-3 py-2">
-                  {town}
-                </span>
-              ))}
+            <div className="rounded-3xl bg-[var(--surface2)] p-6 text-xs font-semibold text-[var(--muted)] flex items-center justify-center">
+              Map placeholder
             </div>
           </div>
         </Container>

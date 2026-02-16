@@ -44,7 +44,7 @@ Open:
 Use the seeded owner credentials from `.env`.
 
 ## Data
-All client content is stored in Postgres via Prisma models:
+All client content is stored in SQLite via Prisma models:
 - Services, pricing tiers, add-ons, gallery, reviews, FAQs
 - Settings (business info, service area, SEO, booking mode)
 - Leads (quote + booking requests)
@@ -53,22 +53,13 @@ All client content is stored in Postgres via Prisma models:
 - Gallery uploads are stored locally in `public/uploads`.
 - Edit business info via `/admin/settings`.
 
-## Render Deployment
-Use a Render Web Service with:
-- Build command: `npm ci && npm run render:build`
-- Start command: `npm run render:start`
+## Cloudflare D1 seed
+Generate a D1 seed SQL file (non-destructive; uses `ADMIN_EMAIL` + `ADMIN_PASSWORD` from `.env`):
+```bash
+npm run d1:seed
+```
 
-Required environment variables:
-- `DATABASE_URL`
-- `NEXTAUTH_SECRET`
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-- `NEXTAUTH_URL` (set this to your Render app URL, e.g. `https://your-app.onrender.com`)
-
-Optional (for Cloudflare R2 gallery uploads on Render):
-- `R2_ENDPOINT`
-- `R2_ACCESS_KEY_ID`
-- `R2_SECRET_ACCESS_KEY`
-- `R2_BUCKET`
-- `R2_PUBLIC_URL`
-- `ALLOW_LOCAL_UPLOADS` (`true` to store uploads in `public/uploads` when R2 is not configured)
+Apply it to your D1 database:
+```bash
+npx wrangler d1 execute shimmernshine --file prisma/seed_d1.sql --remote
+```
