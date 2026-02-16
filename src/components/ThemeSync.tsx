@@ -1,27 +1,44 @@
 "use client";
 
 import { useEffect } from "react";
-
-type Theme = "dark" | "light";
-
-function getDeviceTheme(): Theme {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
+import {
+  applyThemeMode,
+  getSavedThemeMode,
+  THEME_MODE_EVENT,
+  THEME_MODE_KEY,
+} from "@/lib/theme";
 
 export default function ThemeSync() {
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const applyTheme = () => {
-      document.documentElement.setAttribute("data-theme", getDeviceTheme());
+    const syncFromStorage = () => {
+      const mode = getSavedThemeMode();
+      applyThemeMode(mode);
     };
 
-    applyTheme();
+    const handleSystemChange = () => {
+      if (getSavedThemeMode() === "system") {
+        applyThemeMode("system");
+      }
+    };
 
-    mediaQuery.addEventListener("change", applyTheme);
+    const handleStorage = (event: StorageEvent) => {
+      if (!event.key || event.key === THEME_MODE_KEY) {
+        syncFromStorage();
+      }
+    };
+
+    syncFromStorage();
+
+    mediaQuery.addEventListener("change", handleSystemChange);
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener(THEME_MODE_EVENT, syncFromStorage);
 
     return () => {
-      mediaQuery.removeEventListener("change", applyTheme);
+      mediaQuery.removeEventListener("change", handleSystemChange);
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener(THEME_MODE_EVENT, syncFromStorage);
     };
   }, []);
 
