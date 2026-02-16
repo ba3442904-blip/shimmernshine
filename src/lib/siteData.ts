@@ -9,6 +9,7 @@ const keys = [
   "hero",
   "seo",
   "booking",
+  "integrations",
   "trustBadges",
 ] as const;
 
@@ -32,6 +33,11 @@ export async function getSettings() {
 
     const map = new Map(records.map((r) => [r.key, r.value]));
 
+    const integrations = safeParse(
+      map.get("integrations") ?? null,
+      siteDefaults.integrations
+    );
+
     return {
       businessInfo: safeParse(
         map.get("businessInfo") ?? null,
@@ -46,6 +52,10 @@ export async function getSettings() {
       hero: safeParse(map.get("hero") ?? null, siteDefaults.hero),
       seo: safeParse(map.get("seo") ?? null, siteDefaults.seo),
       booking: safeParse(map.get("booking") ?? null, siteDefaults.booking),
+      integrations: {
+        ...siteDefaults.integrations,
+        ...integrations,
+      },
       trustBadges: safeParse(
         map.get("trustBadges") ?? null,
         siteDefaults.trustBadges
@@ -60,6 +70,7 @@ export async function getSettings() {
       hero: siteDefaults.hero,
       seo: siteDefaults.seo,
       booking: siteDefaults.booking,
+      integrations: siteDefaults.integrations,
       trustBadges: siteDefaults.trustBadges,
     };
   }

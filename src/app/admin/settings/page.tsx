@@ -63,6 +63,14 @@ export default async function AdminSettingsPage() {
       imageUrl: String(formData.get("heroImageUrl") || ""),
     };
 
+    const integrations = {
+      instagramEmbedUrl: String(formData.get("instagramEmbedUrl") || ""),
+      googleReviewsElfsightAppId: String(
+        formData.get("googleReviewsElfsightAppId") || ""
+      ),
+      googleReviewsEmbedUrl: String(formData.get("googleReviewsEmbedUrl") || ""),
+    };
+
     const trustBadges = String(formData.get("trustBadges") || "")
       .split(",")
       .map((badge) => badge.trim())
@@ -76,6 +84,7 @@ export default async function AdminSettingsPage() {
       ["seo", seo],
       ["socials", socials],
       ["hero", hero],
+      ["integrations", integrations],
       ["trustBadges", trustBadges],
     ] as const;
 
@@ -246,6 +255,28 @@ export default async function AdminSettingsPage() {
             placeholder="Hero image URL"
             className="input-surface rounded-xl px-3 py-2 text-sm"
           />
+
+          <div className="text-sm font-semibold">Embeds</div>
+          <div className="grid gap-3 md:grid-cols-2">
+            <input
+              name="instagramEmbedUrl"
+              defaultValue={settings.integrations.instagramEmbedUrl}
+              placeholder="Instagram embed URL"
+              className="input-surface rounded-xl px-3 py-2 text-sm"
+            />
+            <input
+              name="googleReviewsElfsightAppId"
+              defaultValue={settings.integrations.googleReviewsElfsightAppId}
+              placeholder="Google reviews Elfsight app ID"
+              className="input-surface rounded-xl px-3 py-2 text-sm"
+            />
+            <input
+              name="googleReviewsEmbedUrl"
+              defaultValue={settings.integrations.googleReviewsEmbedUrl}
+              placeholder="Legacy Google reviews iframe URL (optional)"
+              className="input-surface rounded-xl px-3 py-2 text-sm md:col-span-2"
+            />
+          </div>
 
           <div className="text-sm font-semibold">Trust badges</div>
           <input
