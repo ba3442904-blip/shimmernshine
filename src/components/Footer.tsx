@@ -59,7 +59,6 @@ export default function Footer({
         </div>
 
         <div className="mt-10 flex flex-col justify-between gap-4 border-t border-[var(--border)] pt-6 text-xs text-[var(--muted)] sm:flex-row sm:items-center">
-          <div>© 2026 {businessName}. All rights reserved.</div>
           <div className="flex items-center gap-3">
             {socials.facebook ? (
               <Link
