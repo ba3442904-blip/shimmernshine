@@ -50,7 +50,7 @@ export const siteDefaults = {
     bookingUrl: "",
   },
   integrations: {
-    instagramEmbedUrl: "https://snapwidget.com/embed/1117801",
+    instagramEmbedUrl: "https://snapwidget.com/embed/1117801/",
     googleReviewsEmbedUrl: "",
     googleReviewsElfsightAppId: "",
   },
