@@ -22,14 +22,14 @@ export default async function HomePage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <div className="mb-4 inline-flex rounded-full bg-[var(--primary-soft)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                Mobile auto detailing
+                DMV&apos;s Mobile Detailer
               </div>
               <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
-                Mobile Detailing That Makes Your Car Feel New
+                Your Car Detailed. In Your Driveway.
               </h1>
               <p className="mt-4 max-w-xl text-lg text-[var(--muted)]">
-                Premium detailing at your home or office. We bring the tools, the polish,
-                and the results that make your vehicle shine.
+                No drop-offs. No waiting. We come to you with pro-grade products and leave
+                your vehicle looking its absolute best.
               </p>
               <div className="mt-4 shine-bar" />
               <div className="mt-6 flex flex-wrap gap-4">
@@ -78,9 +78,9 @@ export default async function HomePage() {
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
                 Instagram
               </div>
-              <h2 className="mt-3 text-3xl font-semibold">Latest from the shop.</h2>
+              <h2 className="mt-3 text-3xl font-semibold">See the results for yourself.</h2>
               <p className="mt-2 text-sm text-[var(--muted)]">
-                Fresh details, before-and-after shots, and what we&apos;re working on now.
+                Real transformations, before-and-after shots, and work straight off the schedule.
               </p>
             </div>
             <Button
@@ -109,7 +109,7 @@ export default async function HomePage() {
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
                 Services
               </div>
-              <h2 className="mt-3 text-3xl font-semibold">Packages built for every vehicle.</h2>
+              <h2 className="mt-3 text-3xl font-semibold">Pick your package. We handle the rest.</h2>
             </div>
             <Link href="/services" className="text-sm font-semibold text-[var(--primary)]">
               View all services →
@@ -129,7 +129,7 @@ export default async function HomePage() {
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               Google Reviews
             </div>
-            <h2 className="mt-3 text-3xl font-semibold">See what customers are saying.</h2>
+            <h2 className="mt-3 text-3xl font-semibold">Trusted by DMV drivers.</h2>
           </div>
           {settings.integrations.googleReviewsElfsightAppId ? (
             <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface2)] p-4">
@@ -167,7 +167,7 @@ export default async function HomePage() {
               Service area
             </div>
             <h2 className="mt-3 text-3xl font-semibold">
-              We come to you within {settings.serviceArea.radiusMiles} miles.
+              We cover {settings.serviceArea.radiusMiles} miles. You don&apos;t lift a finger.
             </h2>
             <p className="mt-3 text-sm text-[var(--muted)]">
               {settings.serviceArea.travelFeePolicy}
@@ -189,7 +189,7 @@ export default async function HomePage() {
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               FAQs
             </div>
-            <h2 className="mt-3 text-3xl font-semibold">Good to know before you book.</h2>
+            <h2 className="mt-3 text-3xl font-semibold">Everything you need to know. Nothing you don&apos;t.</h2>
           </div>
           <FAQAccordion items={faqs} />
         </Container>
@@ -200,9 +200,9 @@ export default async function HomePage() {
           <div className="rounded-3xl bg-[var(--primary)] p-10 text-white shadow-[0_30px_60px_rgba(10,87,255,0.25)]">
             <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
               <div>
-                <h2 className="text-3xl font-semibold">Ready for a spotless car?</h2>
+                <h2 className="text-3xl font-semibold">Your driveway. Our equipment. Done right.</h2>
                 <p className="mt-3 text-white/80">
-                  Book today and we&apos;ll bring the shine to your driveway.
+                  Skip the car wash. Book a detail that actually lasts.
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3 lg:justify-end">
