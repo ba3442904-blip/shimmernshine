@@ -22,7 +22,7 @@ export default async function HomePage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <div className="mb-4 inline-flex rounded-full bg-[var(--primary-soft)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                Portland&apos;s Mobile Detailer
+                DMV&apos;s Mobile Detailer
               </div>
               <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
                 Your Car Detailed. In Your Driveway.
@@ -129,7 +129,7 @@ export default async function HomePage() {
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               Google Reviews
             </div>
-            <h2 className="mt-3 text-3xl font-semibold">Trusted by Portland drivers.</h2>
+            <h2 className="mt-3 text-3xl font-semibold">Trusted by DMV drivers.</h2>
           </div>
           {settings.integrations.googleReviewsElfsightAppId ? (
             <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface2)] p-4">
