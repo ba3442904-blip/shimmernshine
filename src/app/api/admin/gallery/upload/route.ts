@@ -31,6 +31,13 @@ export async function POST(req: Request) {
     );
   }
 
+  if (hasFile) {
+    const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return NextResponse.json({ error: "Only image files are allowed." }, { status: 400 });
+    }
+  }
+
   let imagePath = imageUrl;
 
   if (hasFile) {
@@ -80,9 +87,8 @@ export async function POST(req: Request) {
         );
       }
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Image upload failed.";
-      return NextResponse.json({ error: message }, { status: 500 });
+      console.error("[gallery upload]", error);
+      return NextResponse.json({ error: "Image upload failed." }, { status: 500 });
     }
   }
 

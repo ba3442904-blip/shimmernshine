@@ -2,14 +2,14 @@ import { z } from "zod";
 
 export const leadSchema = z.object({
   type: z.enum(["quote", "booking"]),
-  name: z.string().min(2),
-  phone: z.string().min(7),
+  name: z.string().min(2).max(100),
+  phone: z.string().min(7).max(20),
   email: z.string().email().optional().or(z.literal("")),
-  vehicleType: z.string().optional().or(z.literal("")),
+  vehicleType: z.string().max(100).optional().or(z.literal("")),
   serviceId: z.string().optional().or(z.literal("")),
   preferredDate: z.string().optional().or(z.literal("")),
-  address: z.string().optional().or(z.literal("")),
-  notes: z.string().optional().or(z.literal("")),
+  address: z.string().max(200).optional().or(z.literal("")),
+  notes: z.string().max(1000).optional().or(z.literal("")),
 });
 
 export const serviceSchema = z.object({

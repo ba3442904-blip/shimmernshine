@@ -26,19 +26,23 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
 
-  await db.lead.create({
-    data: {
-      type: data.type,
-      name: data.name,
-      phone: data.phone,
-      email: data.email || null,
-      vehicleType: data.vehicleType || null,
-      serviceId: data.serviceId || null,
-      preferredDate: data.preferredDate || null,
-      address: data.address || null,
-      notes: data.notes || null,
-    },
-  });
+  try {
+    await db.lead.create({
+      data: {
+        type: data.type,
+        name: data.name,
+        phone: data.phone,
+        email: data.email || null,
+        vehicleType: data.vehicleType || null,
+        serviceId: data.serviceId || null,
+        preferredDate: data.preferredDate || null,
+        address: data.address || null,
+        notes: data.notes || null,
+      },
+    });
+  } catch {
+    return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }

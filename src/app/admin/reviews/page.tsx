@@ -38,7 +38,10 @@ export default async function AdminReviewsPage() {
     const id = String(formData.get("id"));
     const field = String(formData.get("field"));
     const value = formData.get("value") === "true";
-    await db.review.update({ where: { id }, data: { [field]: value } });
+    const allowed = ["isFeatured", "isActive"] as const;
+    type AllowedField = typeof allowed[number];
+    if (!allowed.includes(field as AllowedField)) return;
+    await db.review.update({ where: { id }, data: { [field as AllowedField]: value } });
     revalidatePath("/admin/reviews");
   }
 
