@@ -44,6 +44,8 @@ export async function POST(req: Request) {
       const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
       const bucket = process.env.R2_BUCKET;
       const publicUrl = process.env.R2_PUBLIC_URL;
+      // WARNING: Local uploads will not persist on Vercel.
+      // Set R2_* environment variables for production file storage.
       const allowLocal = process.env.ALLOW_LOCAL_UPLOADS === "true";
 
       if (endpoint && accessKeyId && secretAccessKey && bucket && publicUrl) {
