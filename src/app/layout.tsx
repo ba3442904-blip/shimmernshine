@@ -5,6 +5,7 @@ import "./mobile.css";
 import NumberInputGuard from "@/components/NumberInputGuard";
 import ThemeSync from "@/components/ThemeSync";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
         <NumberInputGuard />
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
