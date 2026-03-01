@@ -53,22 +53,20 @@ All client content is stored in Postgres via Prisma models:
 - Gallery uploads are stored locally in `public/uploads`.
 - Edit business info via `/admin/settings`.
 
-## Render Deployment
-Use a Render Web Service with:
-- Build command: `npm ci && npm run render:build`
-- Start command: `npm run render:start`
+## Vercel Deployment
 
-Required environment variables:
-- `DATABASE_URL`
-- `NEXTAUTH_SECRET`
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-- `NEXTAUTH_URL` (set this to your Render app URL, e.g. `https://your-app.onrender.com`)
-
-Optional (for Cloudflare R2 gallery uploads on Render):
-- `R2_ENDPOINT`
-- `R2_ACCESS_KEY_ID`
-- `R2_SECRET_ACCESS_KEY`
-- `R2_BUCKET`
-- `R2_PUBLIC_URL`
-- `ALLOW_LOCAL_UPLOADS` (`true` to store uploads in `public/uploads` when R2 is not configured)
+1. Push repo to GitHub
+2. Import project at https://vercel.com/new
+3. Vercel auto-detects Next.js — no build command changes needed
+4. Set these environment variables in Vercel dashboard (Project > Settings > Environment Variables):
+   - `DATABASE_URL` (Supabase pooler URL, port 6543, with `?pgbouncer=true`)
+   - `DIRECT_URL` (Supabase direct URL, port 5432)
+   - `NEXTAUTH_SECRET`
+   - `ADMIN_EMAIL`
+   - `ADMIN_PASSWORD`
+   - `NEXTAUTH_URL` (set to your Vercel deployment URL, e.g. `https://shimmernshine.vercel.app`)
+5. Deploy — Vercel runs `npm run build` automatically
+6. After first deploy, run migrations manually from local machine:
+   ```bash
+   npx prisma migrate deploy
+   ```

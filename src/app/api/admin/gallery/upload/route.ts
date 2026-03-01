@@ -31,6 +31,13 @@ export async function POST(req: Request) {
     );
   }
 
+  if (hasFile) {
+    const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return NextResponse.json({ error: "Only image files are allowed." }, { status: 400 });
+    }
+  }
+
   let imagePath = imageUrl;
 
   if (hasFile) {
@@ -44,6 +51,8 @@ export async function POST(req: Request) {
       const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
       const bucket = process.env.R2_BUCKET;
       const publicUrl = process.env.R2_PUBLIC_URL;
+      // WARNING: Local uploads will not persist on Vercel.
+      // Set R2_* environment variables for production file storage.
       const allowLocal = process.env.ALLOW_LOCAL_UPLOADS === "true";
 
       if (endpoint && accessKeyId && secretAccessKey && bucket && publicUrl) {
@@ -78,9 +87,8 @@ export async function POST(req: Request) {
         );
       }
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Image upload failed.";
-      return NextResponse.json({ error: message }, { status: 500 });
+      console.error("[gallery upload]", error);
+      return NextResponse.json({ error: "Image upload failed." }, { status: 500 });
     }
   }
 
