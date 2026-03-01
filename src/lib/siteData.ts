@@ -1,4 +1,5 @@
 import { getDb } from "@/lib/prisma";
+import { normalizeInstagramEmbedUrl } from "@/lib/embed";
 import { siteDefaults } from "@/lib/siteDefaults";
 
 const keys = [
@@ -55,6 +56,9 @@ export async function getSettings() {
       integrations: {
         ...siteDefaults.integrations,
         ...integrations,
+        instagramEmbedUrl: normalizeInstagramEmbedUrl(
+          integrations?.instagramEmbedUrl ?? siteDefaults.integrations.instagramEmbedUrl
+        ),
       },
       trustBadges: safeParse(
         map.get("trustBadges") ?? null,
