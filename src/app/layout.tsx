@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, Roboto } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import "./mobile.css";
 import NumberInputGuard from "@/components/NumberInputGuard";
@@ -40,6 +41,7 @@ export default function RootLayout({
         <ThemeSync />
         <NumberInputGuard />
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
