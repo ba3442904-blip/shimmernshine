@@ -53,6 +53,7 @@ export const siteDefaults = {
   },
   integrations: {
     instagramEmbedUrl: "https://snapwidget.com/embed/1117801/",
+    instagramEmbedCode: "",
     googleReviewsEmbedUrl: "",
     googleReviewsElfsightAppId: "",
   },

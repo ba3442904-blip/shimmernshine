@@ -1,4 +1,5 @@
 import Container from "@/components/Container";
+import InstagramEmbed from "@/components/InstagramEmbed";
 import { getSettings } from "@/lib/siteData";
 
 export const dynamic = "force-dynamic";
@@ -25,7 +26,9 @@ export default async function GalleryPage() {
       </section>
       <section>
         <Container>
-          {settings.integrations.instagramEmbedUrl ? (
+          {settings.integrations.instagramEmbedCode ? (
+            <InstagramEmbed embedCode={settings.integrations.instagramEmbedCode} />
+          ) : settings.integrations.instagramEmbedUrl ? (
             <iframe
               src={settings.integrations.instagramEmbedUrl}
               className="snapwidget-widget snapwidget-embed"

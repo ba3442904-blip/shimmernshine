@@ -65,6 +65,7 @@ export default async function AdminSettingsPage() {
 
     const integrations = {
       instagramEmbedUrl: String(formData.get("instagramEmbedUrl") || ""),
+      instagramEmbedCode: String(formData.get("instagramEmbedCode") || ""),
       googleReviewsElfsightAppId: String(
         formData.get("googleReviewsElfsightAppId") || ""
       ),
@@ -258,10 +259,17 @@ export default async function AdminSettingsPage() {
 
           <div className="text-sm font-semibold">Embeds</div>
           <div className="grid gap-3 md:grid-cols-2">
+            <textarea
+              name="instagramEmbedCode"
+              defaultValue={settings.integrations.instagramEmbedCode}
+              placeholder="Instagram embed code (paste full HTML — takes priority over URL below)"
+              className="input-surface rounded-xl px-3 py-2 font-mono text-xs md:col-span-2"
+              rows={4}
+            />
             <input
               name="instagramEmbedUrl"
               defaultValue={settings.integrations.instagramEmbedUrl}
-              placeholder="Instagram embed URL"
+              placeholder="Instagram embed URL (Snapwidget fallback)"
               className="input-surface rounded-xl px-3 py-2 text-sm"
             />
             <input

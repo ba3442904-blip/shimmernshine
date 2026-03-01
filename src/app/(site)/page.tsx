@@ -4,6 +4,7 @@ import Card from "@/components/Card";
 import Container from "@/components/Container";
 import FAQAccordion from "@/components/FAQAccordion";
 import ElfsightGoogleReviews from "@/components/ElfsightGoogleReviews";
+import InstagramEmbed from "@/components/InstagramEmbed";
 import InstantQuoteForm from "@/components/InstantQuoteForm";
 import ServiceCard from "@/components/ServiceCard";
 import { getPublicFaq, getPublicServices, getSettings } from "@/lib/siteData";
@@ -90,15 +91,19 @@ export default async function HomePage() {
               Follow on Instagram
             </Button>
           </div>
-          <iframe
-            src={settings.integrations.instagramEmbedUrl}
-            className="snapwidget-widget snapwidget-embed"
-            allowTransparency
-            frameBorder={0}
-            scrolling="no"
-            style={{ border: "none", overflow: "hidden", width: "100%", height: "510px" }}
-            title="Posts from Instagram"
-          />
+          {settings.integrations.instagramEmbedCode ? (
+            <InstagramEmbed embedCode={settings.integrations.instagramEmbedCode} />
+          ) : (
+            <iframe
+              src={settings.integrations.instagramEmbedUrl}
+              className="snapwidget-widget snapwidget-embed"
+              allowTransparency
+              frameBorder={0}
+              scrolling="no"
+              style={{ border: "none", overflow: "hidden", width: "100%", height: "510px" }}
+              title="Posts from Instagram"
+            />
+          )}
         </Container>
       </section>
 
