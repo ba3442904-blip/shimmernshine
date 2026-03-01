@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
     "prisma:seed": "tsx prisma/seed.ts",
+    "prisma:studio": "prisma studio",
     "render:build": "npm run build",
     "render:start": "npx prisma migrate deploy && npm run start"
   },
