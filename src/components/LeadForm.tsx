@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Button from "@/components/Button";
+import { CheckIcon } from "@/components/Icons";
 
 type ServiceOption = {
   id: string;
@@ -19,8 +20,12 @@ export default function LeadForm({
 }) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submittedName, setSubmittedName] = useState("");
 
   async function handleSubmit(formData: FormData) {
+    if (submitting) return;
+    setSubmitting(true);
     setStatus("idle");
     setMessage("");
 
@@ -36,6 +41,8 @@ export default function LeadForm({
       notes: String(formData.get("notes") || ""),
     };
 
+    setSubmittedName(payload.name);
+
     try {
       const res = await fetch("/api/leads", {
         method: "POST",
@@ -49,7 +56,6 @@ export default function LeadForm({
       }
 
       setStatus("success");
-      setMessage("Thanks! We received your request and will follow up shortly.");
 
       if (businessEmail) {
         const subject =
@@ -64,7 +70,28 @@ export default function LeadForm({
       setMessage(
         error instanceof Error ? error.message : "Unable to submit your request."
       );
+    } finally {
+      setSubmitting(false);
     }
+  }
+
+  if (status === "success") {
+    return (
+      <div className="card-surface grid gap-4 p-6 text-center">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-500/15">
+          <CheckIcon className="h-7 w-7 text-green-500" />
+        </div>
+        <div className="grid gap-1">
+          <p className="text-lg font-semibold">
+            {submittedName ? `Got it, ${submittedName}!` : "We received your request!"}
+          </p>
+          <p className="text-sm text-[var(--muted)]">
+            We&apos;ll follow up shortly to confirm your{" "}
+            {type === "booking" ? "booking" : "quote"}.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -153,15 +180,11 @@ export default function LeadForm({
           className="input-surface rounded-xl px-4 py-3 text-sm"
         />
       </label>
-      <Button type="submit">Send request</Button>
-      {status !== "idle" ? (
-        <p
-          className={`text-sm ${
-            status === "success" ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {message}
-        </p>
+      <Button type="submit" disabled={submitting}>
+        {submitting ? "Sending\u2026" : "Send request"}
+      </Button>
+      {status === "error" ? (
+        <p className="text-sm text-red-600">{message}</p>
       ) : null}
     </form>
   );

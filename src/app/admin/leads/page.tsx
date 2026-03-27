@@ -128,8 +128,21 @@ export default async function AdminLeadsPage({
                   {lead.phone} - {lead.email || "No email"}
                 </div>
               </div>
-              <div className="text-xs font-semibold text-[var(--muted)]">
-                {toLabel(lead.type)} - {toLabel(lead.status)}
+              <div className="grid gap-0.5 text-right">
+                <div className="text-xs font-semibold text-[var(--muted)]">
+                  {toLabel(lead.type)} - {toLabel(lead.status)}
+                </div>
+                <div className="text-xs text-[var(--muted)]">
+                  {lead.createdAt.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}{" "}
+                  {lead.createdAt.toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+                </div>
               </div>
             </div>
             <div className="grid gap-2 text-xs text-[var(--muted)]">

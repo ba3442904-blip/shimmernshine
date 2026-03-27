@@ -9,6 +9,7 @@ type ButtonProps = {
   variant?: Variant;
   className?: string;
   type?: "button" | "submit";
+  disabled?: boolean;
 };
 
 const variantStyles: Record<Variant, string> = {
@@ -25,8 +26,9 @@ export default function Button({
   variant = "primary",
   className = "",
   type = "button",
+  disabled = false,
 }: ButtonProps) {
-  const classes = `inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-base font-semibold text-center no-underline hover:no-underline transition sm:w-auto sm:text-sm ${variantStyles[variant]} ${className}`;
+  const classes = `inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-base font-semibold text-center no-underline hover:no-underline transition disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto sm:text-sm ${variantStyles[variant]} ${className}`;
 
   if (href) {
     return (
@@ -37,7 +39,7 @@ export default function Button({
   }
 
   return (
-    <button type={type} className={classes}>
+    <button type={type} disabled={disabled} className={classes}>
       {children}
     </button>
   );
