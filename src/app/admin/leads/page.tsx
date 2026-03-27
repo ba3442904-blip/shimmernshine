@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { LeadStatus, LeadType, Prisma } from "@prisma/client";
 import { getDb } from "@/lib/prisma";
 import Card from "@/components/Card";
+import DeleteLeadButton from "@/components/DeleteLeadButton";
 import { requireAdmin } from "@/lib/requireAdmin";
 
 type SearchParams = {
@@ -200,6 +201,7 @@ export default async function AdminLeadsPage({
                   Email
                 </a>
               ) : null}
+              <DeleteLeadButton leadId={lead.id} />
             </form>
           </Card>
         ))}
