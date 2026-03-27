@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-admin: 'Roboto', system-ui, sans-serif;
   --bg: #f7f9fc;
   --surface: #ffffff;
   --surface2: #f1f5fb;

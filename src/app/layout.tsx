@@ -1,28 +1,10 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import "./mobile.css";
 import NumberInputGuard from "@/components/NumberInputGuard";
 import ThemeSync from "@/components/ThemeSync";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
-
-const roboto = Roboto({
-  variable: "--font-admin",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
 
 export const metadata: Metadata = {
   title: "Shimmer N Shine Detailing",
@@ -36,9 +18,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${fraunces.variable} ${roboto.variable} antialiased`}
-      >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased">
         <ThemeSync />
         <NumberInputGuard />
         {children}
