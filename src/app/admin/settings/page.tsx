@@ -1,12 +1,19 @@
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
 import { getSettings } from "@/lib/siteData";
 import { requireAdmin } from "@/lib/requireAdmin";
+import SettingsSaveButton from "@/components/SettingsSaveButton";
 
-export default async function AdminSettingsPage() {
+export default async function AdminSettingsPage({
+  searchParams,
+}: {
+  searchParams: { saved?: string };
+}) {
   await requireAdmin();
   const settings = await getSettings();
+  const saved = searchParams?.saved === "1";
 
   async function saveSettings(formData: FormData) {
     "use server";
@@ -99,10 +106,16 @@ export default async function AdminSettingsPage() {
 
     revalidatePath("/admin/settings");
     revalidatePath("/");
+    redirect("/admin/settings?saved=1");
   }
 
   return (
     <div className="grid gap-6">
+      {saved ? (
+        <div className="rounded-xl bg-green-500/10 px-4 py-3 text-sm font-semibold text-green-600">
+          Settings saved successfully.
+        </div>
+      ) : null}
       <Card>
         <div className="text-sm font-semibold">Business info</div>
         <form action={saveSettings} className="mt-4 grid gap-4">
@@ -294,9 +307,7 @@ export default async function AdminSettingsPage() {
             className="input-surface rounded-xl px-3 py-2 text-sm"
           />
 
-          <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
-            Save settings
-          </button>
+          <SettingsSaveButton />
         </form>
       </Card>
     </div>

@@ -27,6 +27,22 @@ export async function POST(req: Request) {
   const data = parsed.data;
 
   try {
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const existing = await db.lead.findFirst({
+      where: { phone: data.phone, createdAt: { gte: since } },
+      select: { id: true },
+    });
+
+    if (existing) {
+      return NextResponse.json(
+        {
+          error:
+            "It looks like we already have your information — we'll be in touch soon!",
+        },
+        { status: 409 }
+      );
+    }
+
     await db.lead.create({
       data: {
         type: data.type,
