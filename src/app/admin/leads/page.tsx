@@ -94,7 +94,7 @@ export default async function AdminLeadsPage({
           <div className="flex flex-wrap gap-2 text-xs font-semibold">
             <a
               href={filterUrl(status, "all")}
-              className={`inline-flex items-center justify-center rounded-full px-3 py-2 ${status === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
+              className={`inline-flex min-w-[72px] items-center justify-center rounded-full px-3 py-2 ${status === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
             >
               All
             </a>
@@ -102,7 +102,7 @@ export default async function AdminLeadsPage({
               <a
                 key={s}
                 href={filterUrl(status, s)}
-                className={`inline-flex items-center justify-center rounded-full px-3 py-2 ${status === s ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
+                className={`inline-flex min-w-[72px] items-center justify-center rounded-full px-3 py-2 ${status === s ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
               >
                 {toLabel(s)}
               </a>
