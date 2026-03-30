@@ -18,10 +18,21 @@ const STATUS_OPTIONS = [
   "archived",
 ] as const;
 
+const FILTER_STATUSES = ["new", "contacted", "scheduled"] as const;
+
 const TYPE_OPTIONS = ["quote", "booking"] as const;
 
 function toLabel(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function filterUrl(current: { status: string; type: string }, overrides: Partial<{ status: string; type: string }>) {
+  const merged = { ...current, ...overrides };
+  const params = new URLSearchParams();
+  if (merged.status !== "all") params.set("status", merged.status);
+  if (merged.type !== "all") params.set("type", merged.type);
+  const qs = params.toString();
+  return `/admin/leads${qs ? `?${qs}` : ""}`;
 }
 
 function isLeadStatus(value: string): value is LeadStatus {
@@ -94,28 +105,41 @@ export default async function AdminLeadsPage({
             Export CSV
           </a>
         </div>
-        <div className="mt-4 flex flex-wrap gap-3 text-xs font-semibold">
-          <a href="/admin/leads?status=all" className="rounded-full bg-[var(--surface2)] px-3 py-2">
-            All Statuses
-          </a>
-          {STATUS_OPTIONS.map((s) => (
+        <div className="mt-4 grid gap-3">
+          <div className="flex flex-wrap gap-2 text-xs font-semibold">
             <a
-              key={s}
-              href={`/admin/leads?status=${s}`}
-              className="rounded-full bg-[var(--surface2)] px-3 py-2"
+              href={filterUrl({ status, type }, { status: "all" })}
+              className={`rounded-full px-3 py-2 ${status === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
             >
-              {toLabel(s)}
+              All
             </a>
-          ))}
-          <a href="/admin/leads?type=quote" className="rounded-full bg-[var(--surface2)] px-3 py-2">
-            Quotes
-          </a>
-          <a
-            href="/admin/leads?type=booking"
-            className="rounded-full bg-[var(--surface2)] px-3 py-2"
-          >
-            Bookings
-          </a>
+            {FILTER_STATUSES.map((s) => (
+              <a
+                key={s}
+                href={filterUrl({ status, type }, { status: s })}
+                className={`rounded-full px-3 py-2 ${status === s ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
+              >
+                {toLabel(s)}
+              </a>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2 text-xs font-semibold">
+            <a
+              href={filterUrl({ status, type }, { type: "all" })}
+              className={`rounded-full px-3 py-2 ${type === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
+            >
+              All Types
+            </a>
+            {TYPE_OPTIONS.map((t) => (
+              <a
+                key={t}
+                href={filterUrl({ status, type }, { type: t })}
+                className={`rounded-full px-3 py-2 ${type === t ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
+              >
+                {toLabel(t)}
+              </a>
+            ))}
+          </div>
         </div>
       </Card>
 
