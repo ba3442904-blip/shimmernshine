@@ -85,7 +85,7 @@ export default async function AdminLeadsPage({
           <div className="text-sm font-semibold">Leads</div>
           <a
             href="/api/admin/leads/export"
-            className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
+            className="inline-flex items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
           >
             Export CSV
           </a>
@@ -94,7 +94,7 @@ export default async function AdminLeadsPage({
           <div className="flex flex-wrap gap-2 text-xs font-semibold">
             <a
               href={filterUrl(status, "all")}
-              className={`rounded-full px-3 py-2 ${status === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
+              className={`inline-flex items-center justify-center rounded-full px-3 py-2 ${status === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
             >
               All
             </a>
@@ -102,7 +102,7 @@ export default async function AdminLeadsPage({
               <a
                 key={s}
                 href={filterUrl(status, s)}
-                className={`rounded-full px-3 py-2 ${status === s ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
+                className={`inline-flex items-center justify-center rounded-full px-3 py-2 ${status === s ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
               >
                 {toLabel(s)}
               </a>
@@ -159,7 +159,7 @@ export default async function AdminLeadsPage({
                 rows={2}
                 className="input-surface rounded-xl px-3 py-2 text-xs"
               />
-              <button className="self-start rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
+              <button className="self-start inline-flex items-center justify-center rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
                 Save notes
               </button>
             </form>
@@ -176,19 +176,19 @@ export default async function AdminLeadsPage({
                   </option>
                 ))}
               </select>
-              <button className="rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
+              <button className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
                 Update status
               </button>
               <a
                 href={`tel:${lead.phone}`}
-                className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
               >
                 Call
               </a>
               {lead.email ? (
                 <a
                   href={`mailto:${lead.email}`}
-                  className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
                 >
                   Email
                 </a>
