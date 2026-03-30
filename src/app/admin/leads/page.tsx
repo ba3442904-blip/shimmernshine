@@ -46,12 +46,11 @@ function isLeadType(value: string): value is LeadType {
 export default async function AdminLeadsPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
   await requireAdmin();
   const db = getDb();
-  const status = searchParams?.status ?? "all";
-  const type = searchParams?.type ?? "all";
+  const { status = "all", type = "all" } = await searchParams;
 
   const where: Prisma.LeadWhereInput = {};
   if (status !== "all" && isLeadStatus(status)) {
