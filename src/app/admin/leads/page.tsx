@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import { LeadStatus, LeadType, Prisma } from "@prisma/client";
+import { LeadStatus, Prisma } from "@prisma/client";
 import { getDb } from "@/lib/prisma";
 import Card from "@/components/Card";
 import DeleteLeadButton from "@/components/DeleteLeadButton";
@@ -7,7 +7,6 @@ import { requireAdmin } from "@/lib/requireAdmin";
 
 type SearchParams = {
   status?: string;
-  type?: string;
 };
 
 const STATUS_OPTIONS = [
@@ -20,27 +19,17 @@ const STATUS_OPTIONS = [
 
 const FILTER_STATUSES = ["new", "contacted", "scheduled"] as const;
 
-const TYPE_OPTIONS = ["quote", "booking"] as const;
-
 function toLabel(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function filterUrl(current: { status: string; type: string }, overrides: Partial<{ status: string; type: string }>) {
-  const merged = { ...current, ...overrides };
-  const params = new URLSearchParams();
-  if (merged.status !== "all") params.set("status", merged.status);
-  if (merged.type !== "all") params.set("type", merged.type);
-  const qs = params.toString();
-  return `/admin/leads${qs ? `?${qs}` : ""}`;
+function filterUrl(status: string, override: string) {
+  if (override === "all") return "/admin/leads";
+  return `/admin/leads?status=${override}`;
 }
 
 function isLeadStatus(value: string): value is LeadStatus {
   return STATUS_OPTIONS.includes(value as LeadStatus);
-}
-
-function isLeadType(value: string): value is LeadType {
-  return TYPE_OPTIONS.includes(value as LeadType);
 }
 
 export default async function AdminLeadsPage({
@@ -50,14 +39,11 @@ export default async function AdminLeadsPage({
 }) {
   await requireAdmin();
   const db = getDb();
-  const { status = "all", type = "all" } = await searchParams;
+  const { status = "all" } = await searchParams;
 
   const where: Prisma.LeadWhereInput = {};
   if (status !== "all" && isLeadStatus(status)) {
     where.status = status;
-  }
-  if (type !== "all" && isLeadType(type)) {
-    where.type = type;
   }
 
   const leads = await db.lead.findMany({
@@ -107,7 +93,7 @@ export default async function AdminLeadsPage({
         <div className="mt-4 grid gap-3">
           <div className="flex flex-wrap gap-2 text-xs font-semibold">
             <a
-              href={filterUrl({ status, type }, { status: "all" })}
+              href={filterUrl(status, "all")}
               className={`rounded-full px-3 py-2 ${status === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
             >
               All
@@ -115,27 +101,10 @@ export default async function AdminLeadsPage({
             {FILTER_STATUSES.map((s) => (
               <a
                 key={s}
-                href={filterUrl({ status, type }, { status: s })}
+                href={filterUrl(status, s)}
                 className={`rounded-full px-3 py-2 ${status === s ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
               >
                 {toLabel(s)}
-              </a>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2 text-xs font-semibold">
-            <a
-              href={filterUrl({ status, type }, { type: "all" })}
-              className={`rounded-full px-3 py-2 ${type === "all" ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
-            >
-              All Types
-            </a>
-            {TYPE_OPTIONS.map((t) => (
-              <a
-                key={t}
-                href={filterUrl({ status, type }, { type: t })}
-                className={`rounded-full px-3 py-2 ${type === t ? "bg-[var(--primary)] text-white" : "bg-[var(--surface2)]"}`}
-              >
-                {toLabel(t)}
               </a>
             ))}
           </div>
