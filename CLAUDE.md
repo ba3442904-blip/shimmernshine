@@ -2,14 +2,23 @@
 
 ## Next.js 15
 
-Dynamic route `params` in route handlers are a `Promise` and must be typed as `Promise<{ id: string }>` (or the relevant shape) and awaited before use.
+Both `params` (route handlers) and `searchParams` (page components) are `Promise`s and must be awaited before use.
 
 ```ts
+// Route handler
 export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  // ...
+}
+
+// Page component
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  const { status = "all" } = await searchParams;
 }
 ```
