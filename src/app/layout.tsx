@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, Roboto } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import "./mobile.css";
-import NumberInputGuard from "@/components/NumberInputGuard";
 import ThemeSync from "@/components/ThemeSync";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -18,12 +17,6 @@ const fraunces = Fraunces({
   weight: ["400", "600", "700"],
 });
 
-const roboto = Roboto({
-  variable: "--font-admin",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
-
 export const metadata: Metadata = {
   title: "Shimmer N Shine Detailing",
   description: "Premium mobile auto detailing with effortless booking.",
@@ -37,10 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${fraunces.variable} ${roboto.variable} antialiased`}
+        className={`${inter.variable} ${fraunces.variable} antialiased`}
       >
         <ThemeSync />
-        <NumberInputGuard />
         {children}
         <Analytics />
         <SpeedInsights />

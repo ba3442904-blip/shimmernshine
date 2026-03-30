@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
@@ -18,7 +18,10 @@ export default async function AdminAddOnsPage() {
     await db.addOn.create({
       data: { name, description, priceCents, sortOrder: addOns.length + 1 },
     });
+    revalidateTag("addons");
     revalidatePath("/admin/addons");
+    revalidatePath("/pricing");
+    revalidatePath("/services");
   }
 
   async function toggleAddOn(formData: FormData) {
@@ -28,7 +31,10 @@ export default async function AdminAddOnsPage() {
     const id = String(formData.get("id"));
     const isActive = String(formData.get("isActive")) === "true";
     await db.addOn.update({ where: { id }, data: { isActive } });
+    revalidateTag("addons");
     revalidatePath("/admin/addons");
+    revalidatePath("/pricing");
+    revalidatePath("/services");
   }
 
   async function updateAddOn(formData: FormData) {
@@ -43,7 +49,10 @@ export default async function AdminAddOnsPage() {
       where: { id },
       data: { name, description, priceCents },
     });
+    revalidateTag("addons");
     revalidatePath("/admin/addons");
+    revalidatePath("/pricing");
+    revalidatePath("/services");
   }
 
   async function removeAddOn(formData: FormData) {
@@ -52,7 +61,10 @@ export default async function AdminAddOnsPage() {
     const db = getDb();
     const id = String(formData.get("id"));
     await db.addOn.delete({ where: { id } });
+    revalidateTag("addons");
     revalidatePath("/admin/addons");
+    revalidatePath("/pricing");
+    revalidatePath("/services");
   }
 
   return (

@@ -2,7 +2,7 @@ import Container from "@/components/Container";
 import InstagramEmbed from "@/components/InstagramEmbed";
 import { getSettings } from "@/lib/siteData";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function GalleryPage() {
   const settings = await getSettings();

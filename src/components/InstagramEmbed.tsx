@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function InstagramEmbed({
   embedCode,
@@ -10,14 +10,30 @@ export default function InstagramEmbed({
   className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !embedCode) return;
+    if (!container || !visible || !embedCode) return;
 
     container.innerHTML = embedCode;
 
-    // dangerouslySetInnerHTML / innerHTML doesn't execute scripts — re-create each one so they run
     container.querySelectorAll("script").forEach((oldScript) => {
       const newScript = document.createElement("script");
       if (oldScript.src) {
@@ -28,9 +44,9 @@ export default function InstagramEmbed({
       }
       oldScript.parentNode?.replaceChild(newScript, oldScript);
     });
-  }, [embedCode]);
+  }, [visible, embedCode]);
 
   if (!embedCode) return null;
 
-  return <div ref={containerRef} className={className} />;
+  return <div ref={containerRef} className={className} style={{ minHeight: 400 }} />;
 }

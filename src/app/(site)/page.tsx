@@ -1,13 +1,16 @@
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Container from "@/components/Container";
-import FAQAccordion from "@/components/FAQAccordion";
-import ElfsightGoogleReviews from "@/components/ElfsightGoogleReviews";
-import InstagramEmbed from "@/components/InstagramEmbed";
-import InstantQuoteForm from "@/components/InstantQuoteForm";
 import ServiceCard from "@/components/ServiceCard";
 import { getPublicFaq, getPublicServices, getSettings } from "@/lib/siteData";
+
+const FAQAccordion = dynamic(() => import("@/components/FAQAccordion"));
+const ElfsightGoogleReviews = dynamic(() => import("@/components/ElfsightGoogleReviews"), { ssr: false });
+const InstagramEmbed = dynamic(() => import("@/components/InstagramEmbed"), { ssr: false });
+const InstantQuoteForm = dynamic(() => import("@/components/InstantQuoteForm"));
 
 export default async function HomePage() {
   const [settings, services, faqs] = await Promise.all([
@@ -53,13 +56,15 @@ export default async function HomePage() {
             <div className="grid gap-4">
               <Card className="bg-gradient-to-br from-[var(--surface)] via-[var(--surface2)] to-[#0b1020]">
                 <div className="text-sm font-semibold">Detailing result preview</div>
-                <div className="mt-4 aspect-[16/10] overflow-hidden rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center">
+                <div className="relative mt-4 aspect-[16/10] overflow-hidden rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center">
                   {settings.hero?.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={settings.hero.imageUrl}
                       alt="Hero detailing"
-                      className="h-full w-full object-cover"
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover"
                     />
                   ) : (
                     "Hero image placeholder"

@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
@@ -28,7 +28,9 @@ export default async function AdminReviewsPage() {
         sortOrder: reviews.length + 1,
       },
     });
+    revalidateTag("reviews");
     revalidatePath("/admin/reviews");
+    revalidatePath("/reviews");
   }
 
   async function toggleReview(formData: FormData) {
@@ -42,7 +44,9 @@ export default async function AdminReviewsPage() {
     type AllowedField = typeof allowed[number];
     if (!allowed.includes(field as AllowedField)) return;
     await db.review.update({ where: { id }, data: { [field as AllowedField]: value } });
+    revalidateTag("reviews");
     revalidatePath("/admin/reviews");
+    revalidatePath("/reviews");
   }
 
   async function updateReview(formData: FormData) {
@@ -58,7 +62,9 @@ export default async function AdminReviewsPage() {
       where: { id },
       data: { name, text, stars, date },
     });
+    revalidateTag("reviews");
     revalidatePath("/admin/reviews");
+    revalidatePath("/reviews");
   }
 
   async function removeReview(formData: FormData) {
@@ -67,7 +73,9 @@ export default async function AdminReviewsPage() {
     const db = getDb();
     const id = String(formData.get("id"));
     await db.review.delete({ where: { id } });
+    revalidateTag("reviews");
     revalidatePath("/admin/reviews");
+    revalidatePath("/reviews");
   }
 
   return (

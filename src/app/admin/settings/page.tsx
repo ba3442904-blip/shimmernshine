@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
@@ -104,6 +104,7 @@ export default async function AdminSettingsPage({
       });
     }
 
+    revalidateTag("settings");
     revalidatePath("/admin/settings");
     revalidatePath("/");
     redirect("/admin/settings?saved=1");

@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
@@ -46,7 +46,12 @@ export default async function AdminServicesPage() {
         { serviceId: newService.id, vehicleSize: "truck", priceCents: 0, isStartingAt: true },
       ],
     });
+    revalidateTag("services");
     revalidatePath("/admin/services");
+    revalidatePath("/services");
+    revalidatePath("/pricing");
+    revalidatePath("/book");
+    revalidatePath("/");
   }
 
   async function toggleService(formData: FormData) {
@@ -56,7 +61,12 @@ export default async function AdminServicesPage() {
     const id = String(formData.get("id"));
     const isActive = String(formData.get("isActive")) === "true";
     await db.service.update({ where: { id }, data: { isActive } });
+    revalidateTag("services");
     revalidatePath("/admin/services");
+    revalidatePath("/services");
+    revalidatePath("/pricing");
+    revalidatePath("/book");
+    revalidatePath("/");
   }
 
   async function updateService(formData: FormData) {
@@ -72,7 +82,12 @@ export default async function AdminServicesPage() {
       where: { id },
       data: { name, shortDescription, longDescription, durationMins },
     });
+    revalidateTag("services");
     revalidatePath("/admin/services");
+    revalidatePath("/services");
+    revalidatePath("/pricing");
+    revalidatePath("/book");
+    revalidatePath("/");
   }
 
   async function removeService(formData: FormData) {
@@ -82,7 +97,12 @@ export default async function AdminServicesPage() {
     const id = String(formData.get("id"));
     await db.priceTier.deleteMany({ where: { serviceId: id } });
     await db.service.delete({ where: { id } });
+    revalidateTag("services");
     revalidatePath("/admin/services");
+    revalidatePath("/services");
+    revalidatePath("/pricing");
+    revalidatePath("/book");
+    revalidatePath("/");
   }
 
   async function moveService(formData: FormData) {
@@ -111,7 +131,12 @@ export default async function AdminServicesPage() {
         data: { sortOrder: current.sortOrder },
       }),
     ]);
+    revalidateTag("services");
     revalidatePath("/admin/services");
+    revalidatePath("/services");
+    revalidatePath("/pricing");
+    revalidatePath("/book");
+    revalidatePath("/");
   }
 
   return (

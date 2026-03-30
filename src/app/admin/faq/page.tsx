@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
@@ -19,7 +19,10 @@ export default async function AdminFaqPage() {
     await db.fAQ.create({
       data: { question, answer, sortOrder: faqs.length + 1 },
     });
+    revalidateTag("faq");
     revalidatePath("/admin/faq");
+    revalidatePath("/faq");
+    revalidatePath("/");
   }
 
   async function toggleFaq(formData: FormData) {
@@ -29,7 +32,10 @@ export default async function AdminFaqPage() {
     const id = String(formData.get("id"));
     const isActive = String(formData.get("isActive")) === "true";
     await db.fAQ.update({ where: { id }, data: { isActive } });
+    revalidateTag("faq");
     revalidatePath("/admin/faq");
+    revalidatePath("/faq");
+    revalidatePath("/");
   }
 
   async function updateFaq(formData: FormData) {
@@ -40,7 +46,10 @@ export default async function AdminFaqPage() {
     const question = String(formData.get("question") || "");
     const answer = String(formData.get("answer") || "");
     await db.fAQ.update({ where: { id }, data: { question, answer } });
+    revalidateTag("faq");
     revalidatePath("/admin/faq");
+    revalidatePath("/faq");
+    revalidatePath("/");
   }
 
   async function removeFaq(formData: FormData) {
@@ -49,7 +58,10 @@ export default async function AdminFaqPage() {
     const db = getDb();
     const id = String(formData.get("id"));
     await db.fAQ.delete({ where: { id } });
+    revalidateTag("faq");
     revalidatePath("/admin/faq");
+    revalidatePath("/faq");
+    revalidatePath("/");
   }
 
   return (

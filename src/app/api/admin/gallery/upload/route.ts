@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
@@ -128,6 +129,8 @@ export async function POST(req: Request) {
       )
     );
   }
+
+  revalidateTag("gallery");
 
   return NextResponse.json({ ok: true, image });
 }
