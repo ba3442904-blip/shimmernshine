@@ -49,7 +49,7 @@ export default async function GalleryPage() {
                   href={settings.socials.instagram}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-4 inline-flex rounded-full bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white"
+                  className="mt-4 inline-flex min-w-[72px] items-center justify-center rounded-full bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white"
                 >
                   View Instagram
                 </a>

@@ -25,7 +25,7 @@ export default function DeleteLeadButton({ leadId }: { leadId: string }) {
     <button
       onClick={handleDelete}
       disabled={deleting}
-      className="rounded-full border border-red-500/40 px-4 py-2 text-xs font-semibold text-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-red-500/40 px-4 py-2 text-xs font-semibold text-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {deleting ? "Deleting…" : "Delete"}
     </button>

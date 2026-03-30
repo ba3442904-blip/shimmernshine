@@ -71,7 +71,7 @@ export default function GalleryUpload() {
           className="input-surface rounded-xl px-3 py-2 text-sm"
         />
       </div>
-      <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
+      <button className="self-start inline-flex min-w-[72px] items-center justify-center rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
         Upload
       </button>
       {message ? <p className="text-xs text-[var(--muted)]">{message}</p> : null}

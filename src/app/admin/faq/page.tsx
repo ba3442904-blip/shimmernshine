@@ -70,7 +70,7 @@ export default async function AdminFaqPage() {
             rows={3}
             required
           />
-          <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
+          <button className="self-start inline-flex min-w-[72px] items-center justify-center rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
             Add FAQs
           </button>
         </form>
@@ -94,7 +94,7 @@ export default async function AdminFaqPage() {
                 className="input-surface rounded-xl px-3 py-2 text-sm"
                 rows={3}
               />
-              <button className="faq-save-cta self-start rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
+              <button className="faq-save-cta self-start inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
                 Save changes
               </button>
             </form>
@@ -102,13 +102,13 @@ export default async function AdminFaqPage() {
               <form action={toggleFaq}>
                 <input type="hidden" name="id" value={faq.id} />
                 <input type="hidden" name="isActive" value={(!faq.isActive).toString()} />
-                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2">
                   {faq.isActive ? "Deactivate" : "Activate"}
                 </button>
               </form>
               <form action={removeFaq}>
                 <input type="hidden" name="id" value={faq.id} />
-                <button className="rounded-full border border-red-200 px-3 py-2 text-red-600">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-red-200 px-3 py-2 text-red-600">
                   Delete
                 </button>
               </form>

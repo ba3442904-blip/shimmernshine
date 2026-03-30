@@ -107,7 +107,7 @@ export default async function AdminReviewsPage() {
             <input type="checkbox" name="isFeatured" defaultChecked />
             Feature this review
           </label>
-          <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
+          <button className="self-start inline-flex min-w-[72px] items-center justify-center rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
             Add review
           </button>
         </form>
@@ -155,7 +155,7 @@ export default async function AdminReviewsPage() {
                   required
                 />
               </label>
-              <button className="self-start rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
+              <button className="self-start inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
                 Save changes
               </button>
             </form>
@@ -164,7 +164,7 @@ export default async function AdminReviewsPage() {
                 <input type="hidden" name="id" value={review.id} />
                 <input type="hidden" name="field" value="isFeatured" />
                 <input type="hidden" name="value" value={(!review.isFeatured).toString()} />
-                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2">
                   {review.isFeatured ? "Unfeature" : "Feature"}
                 </button>
               </form>
@@ -172,13 +172,13 @@ export default async function AdminReviewsPage() {
                 <input type="hidden" name="id" value={review.id} />
                 <input type="hidden" name="field" value="isActive" />
                 <input type="hidden" name="value" value={(!review.isActive).toString()} />
-                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2">
                   {review.isActive ? "Deactivate" : "Activate"}
                 </button>
               </form>
               <form action={removeReview}>
                 <input type="hidden" name="id" value={review.id} />
-                <button className="rounded-full border border-red-200 px-3 py-2 text-red-600">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-red-200 px-3 py-2 text-red-600">
                   Delete
                 </button>
               </form>

@@ -145,7 +145,7 @@ export default async function AdminServicesPage() {
             className="input-surface rounded-xl px-3 py-2 text-sm"
             required
           />
-          <button className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
+          <button className="self-start inline-flex min-w-[72px] items-center justify-center rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
             Create service
           </button>
         </form>
@@ -187,7 +187,7 @@ export default async function AdminServicesPage() {
                 defaultValue={service.durationMins}
                 className="input-surface rounded-xl px-3 py-2 text-sm"
               />
-              <button className="self-start rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
+              <button className="self-start inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
                 Save changes
               </button>
             </form>
@@ -195,27 +195,27 @@ export default async function AdminServicesPage() {
               <form action={toggleService}>
                 <input type="hidden" name="id" value={service.id} />
                 <input type="hidden" name="isActive" value={(!service.isActive).toString()} />
-                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2">
                   {service.isActive ? "Deactivate" : "Activate"}
                 </button>
               </form>
               <form action={moveService}>
                 <input type="hidden" name="id" value={service.id} />
                 <input type="hidden" name="direction" value="up" />
-                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2">
                   Move up
                 </button>
               </form>
               <form action={moveService}>
                 <input type="hidden" name="id" value={service.id} />
                 <input type="hidden" name="direction" value="down" />
-                <button className="rounded-full border border-[var(--border)] px-3 py-2">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2">
                   Move down
                 </button>
               </form>
               <form action={removeService}>
                 <input type="hidden" name="id" value={service.id} />
-                <button className="rounded-full border border-red-200 px-3 py-2 text-red-600">
+                <button className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-red-200 px-3 py-2 text-red-600">
                   Delete
                 </button>
               </form>

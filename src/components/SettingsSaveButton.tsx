@@ -9,7 +9,7 @@ export default function SettingsSaveButton() {
     <button
       type="submit"
       disabled={pending}
-      className="self-start rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed"
+      className="self-start inline-flex min-w-[72px] items-center justify-center rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {pending ? "Saving\u2026" : "Save settings"}
     </button>

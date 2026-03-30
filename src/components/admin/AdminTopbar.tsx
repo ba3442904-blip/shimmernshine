@@ -34,7 +34,7 @@ export default function AdminTopbar() {
         </div>
         <button
           type="button"
-          className="rounded-full border border-[var(--border)] px-4 py-2 text-sm font-semibold text-[var(--muted)] hover:text-[var(--accent)]"
+          className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-sm font-semibold text-[var(--muted)] hover:text-[var(--accent)]"
           onClick={() => signOut({ callbackUrl: "/admin/login" })}
         >
           Logout
@@ -48,7 +48,7 @@ export default function AdminTopbar() {
               <div className="text-sm font-semibold">Admin Menu</div>
               <button
                 type="button"
-                className="rounded-full border border-[var(--border)] px-4 py-2 text-sm"
+                className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-4 py-2 text-sm"
                 onClick={() => setOpen(false)}
               >
                 Close

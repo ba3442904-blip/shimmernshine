@@ -39,7 +39,7 @@ export default function PricingTable({ services }: { services: Service[] }) {
           <button
             key={option.value}
             type="button"
-            className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+            className={`inline-flex min-w-[72px] items-center justify-center rounded-full px-4 py-2 text-xs font-semibold transition ${
               vehicleSize === option.value
                 ? "bg-[var(--accent2)] text-white"
                 : "bg-[var(--surface2)] text-[var(--muted)]"

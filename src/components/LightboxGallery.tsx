@@ -35,7 +35,7 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
           <button
             key={chip.value}
             type="button"
-            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold transition ${
+            className={`inline-flex min-h-[44px] min-w-[72px] items-center justify-center rounded-full px-4 py-2 text-sm font-semibold transition ${
               filter === chip.value
                 ? "bg-[var(--accent2)] text-white"
                 : "bg-[var(--surface2)] text-[var(--muted)]"
@@ -78,7 +78,7 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
               <div className="text-sm font-semibold">{activeImage.alt}</div>
               <button
                 type="button"
-                className="rounded-full border border-[var(--border)] px-3 py-2 text-xs"
+                className="inline-flex min-w-[72px] items-center justify-center rounded-full border border-[var(--border)] px-3 py-2 text-xs"
                 onClick={() => setActiveIndex(null)}
               >
                 Close
