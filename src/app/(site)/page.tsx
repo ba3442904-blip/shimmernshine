@@ -8,8 +8,8 @@ import ServiceCard from "@/components/ServiceCard";
 import { getPublicFaq, getPublicServices, getSettings } from "@/lib/siteData";
 
 const FAQAccordion = dynamic(() => import("@/components/FAQAccordion"));
-const ElfsightGoogleReviews = dynamic(() => import("@/components/ElfsightGoogleReviews"), { ssr: false });
-const InstagramEmbed = dynamic(() => import("@/components/InstagramEmbed"), { ssr: false });
+const ElfsightGoogleReviews = dynamic(() => import("@/components/ElfsightGoogleReviews"));
+const InstagramEmbed = dynamic(() => import("@/components/InstagramEmbed"));
 const InstantQuoteForm = dynamic(() => import("@/components/InstantQuoteForm"));
 
 export default async function HomePage() {
