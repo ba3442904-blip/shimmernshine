@@ -135,11 +135,17 @@ export async function deleteCalendarEvent(
 }
 
 /** Fixed 2-hour block start times per day of week */
-function getSlotStartHours(day: number): number[] {
+function getSlotStartHours(day: number, dateStr: string): number[] {
+  // Starting May 30 2026, weekdays shift to full-day hours (8am-6pm)
+  const summerStart = "2026-05-30";
+  const isExpanded = dateStr >= summerStart;
+
   switch (day) {
     case 0: return [10, 13, 15];       // Sunday: 10am, 1pm, 3pm
     case 6: return [8, 10, 13, 15];    // Saturday: 8am, 10am, 1pm, 3pm
-    default: return [15, 17];           // Mon-Fri: 3pm, 5pm
+    default: return isExpanded
+      ? [8, 10, 13, 15]               // Mon-Fri (summer): 8am, 10am, 1pm, 3pm
+      : [15, 17];                      // Mon-Fri (school year): 3pm, 5pm
   }
 }
 
@@ -149,7 +155,7 @@ export async function getAvailableSlots(
   _durationMins: number
 ) {
   const dateObj = new Date(`${date}T12:00:00`);
-  const startHours = getSlotStartHours(dateObj.getDay());
+  const startHours = getSlotStartHours(dateObj.getDay(), date);
 
   if (startHours.length === 0) return [];
 
