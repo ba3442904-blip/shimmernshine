@@ -158,7 +158,6 @@ export default async function BookPage({
         <Container>
           <BookingFormWithAvailability
             services={allServices}
-            businessEmail={settings.businessInfo.email}
             defaultVehicleType={vehicleType}
             defaultNotes={estimateNotes}
             showAvailability={hasCalendar}

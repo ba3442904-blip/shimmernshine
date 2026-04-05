@@ -11,13 +11,11 @@ type ServiceOption = {
 
 export default function BookingFormWithAvailability({
   services,
-  businessEmail,
   defaultVehicleType = "",
   defaultNotes = "",
   showAvailability,
 }: {
   services: ServiceOption[];
-  businessEmail: string;
   defaultVehicleType?: string;
   defaultNotes?: string;
   showAvailability: boolean;
@@ -43,7 +41,6 @@ export default function BookingFormWithAvailability({
       <LeadForm
         type="booking"
         services={services}
-        businessEmail={businessEmail}
         defaultVehicleType={defaultVehicleType}
         defaultNotes={defaultNotes}
         defaultPreferredDate={preferredDate}

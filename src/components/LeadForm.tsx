@@ -12,14 +12,12 @@ type ServiceOption = {
 export default function LeadForm({
   type,
   services,
-  businessEmail,
   defaultVehicleType = "",
   defaultNotes = "",
   defaultPreferredDate = "",
 }: {
   type: "quote" | "booking";
   services: ServiceOption[];
-  businessEmail: string;
   defaultVehicleType?: string;
   defaultNotes?: string;
   defaultPreferredDate?: string;
@@ -62,15 +60,6 @@ export default function LeadForm({
       }
 
       setStatus("success");
-
-      if (businessEmail) {
-        const subject =
-          type === "booking" ? "New booking request" : "New quote request";
-        const mailto = `mailto:${businessEmail}?subject=${encodeURIComponent(
-          subject
-        )}`;
-        window.open(mailto, "_blank");
-      }
     } catch (error) {
       setStatus("error");
       setMessage(
