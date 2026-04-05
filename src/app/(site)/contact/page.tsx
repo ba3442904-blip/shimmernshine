@@ -56,7 +56,6 @@ export default async function ContactPage() {
             <LeadForm
               type="quote"
               services={services}
-              businessEmail={settings.businessInfo.email}
             />
           </div>
         </Container>
