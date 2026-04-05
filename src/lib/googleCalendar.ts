@@ -141,15 +141,29 @@ export async function deleteCalendarEvent(
   });
 }
 
+function getBusinessHours(date: Date): { startHour: number; endHour: number } | null {
+  const day = date.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+  switch (day) {
+    case 0: return { startHour: 10, endHour: 18 }; // Sunday 10am-6pm
+    case 6: return { startHour: 8, endHour: 18 };   // Saturday 8am-6pm
+    default: return { startHour: 15, endHour: 18 };  // Mon-Fri 3pm-6pm
+  }
+}
+
 export async function getAvailableSlots(
   authedClient: Awaited<ReturnType<typeof getAuthedClient>> & {},
   date: string,
   durationMins: number
 ) {
+  const dateObj = new Date(`${date}T12:00:00`);
+  const hours = getBusinessHours(dateObj);
+
+  if (!hours) return [];
+
   const calendar = google.calendar({ version: "v3", auth: authedClient.client });
 
-  const dayStart = new Date(`${date}T08:00:00`);
-  const dayEnd = new Date(`${date}T18:00:00`);
+  const dayStart = new Date(`${date}T${String(hours.startHour).padStart(2, "0")}:00:00`);
+  const dayEnd = new Date(`${date}T${String(hours.endHour).padStart(2, "0")}:00:00`);
 
   const res = await calendar.freebusy.query({
     requestBody: {
@@ -162,7 +176,6 @@ export async function getAvailableSlots(
   const busySlots =
     res.data.calendars?.[authedClient.calendarId]?.busy ?? [];
 
-  // Generate 30-minute interval slots from 8am to 6pm
   const slots: { start: string; end: string }[] = [];
   const slotDuration = durationMins * 60 * 1000;
 
