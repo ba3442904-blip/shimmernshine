@@ -3,6 +3,7 @@ import { LeadStatus, LeadType, Prisma } from "@prisma/client";
 import { getDb } from "@/lib/prisma";
 import Card from "@/components/Card";
 import DeleteLeadButton from "@/components/DeleteLeadButton";
+import LocalDate from "@/components/LocalDate";
 import { requireAdmin } from "@/lib/requireAdmin";
 
 type SearchParams = {
@@ -211,15 +212,7 @@ export default async function AdminLeadsPage({
                   {toLabel(lead.type)} - {toLabel(lead.status)}
                 </div>
                 <div className="text-xs text-[var(--muted)]">
-                  {lead.createdAt.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}{" "}
-                  {lead.createdAt.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  })}
+                  <LocalDate date={lead.createdAt.toISOString()} />
                 </div>
               </div>
             </div>
