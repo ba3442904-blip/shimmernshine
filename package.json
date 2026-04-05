@@ -18,7 +18,8 @@
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
     "bcryptjs": "^3.0.3",
-    "next": "16.1.6",
+    "googleapis": "^171.4.0",
+    "next": "^16.2.2",
     "next-auth": "^4.24.13",
     "prisma": "^6.19.2",
     "react": "19.2.3",
@@ -31,7 +32,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "^16.2.2",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
@@ -40,6 +41,6 @@
     "seed": "tsx prisma/seed.ts"
   },
   "overrides": {
-    "fast-xml-parser": "^5.3.8"
+    "fast-xml-parser": ">=5.5.7"
   }
 }

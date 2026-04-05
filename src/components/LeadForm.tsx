@@ -13,10 +13,16 @@ export default function LeadForm({
   type,
   services,
   businessEmail,
+  defaultVehicleType = "",
+  defaultNotes = "",
+  defaultPreferredDate = "",
 }: {
   type: "quote" | "booking";
   services: ServiceOption[];
   businessEmail: string;
+  defaultVehicleType?: string;
+  defaultNotes?: string;
+  defaultPreferredDate?: string;
 }) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -136,6 +142,7 @@ export default function LeadForm({
           <input
             name="vehicleType"
             placeholder="Sedan, SUV, Truck"
+            defaultValue={defaultVehicleType}
             className="input-surface rounded-xl px-4 py-3 text-sm"
           />
         </label>
@@ -161,6 +168,8 @@ export default function LeadForm({
             name="preferredDate"
             placeholder="MM/DD"
             inputMode="numeric"
+            defaultValue={defaultPreferredDate}
+            key={defaultPreferredDate}
             className="input-surface rounded-xl px-4 py-3 text-sm"
           />
         </label>
@@ -177,6 +186,7 @@ export default function LeadForm({
         <textarea
           name="notes"
           rows={4}
+          defaultValue={defaultNotes}
           className="input-surface rounded-xl px-4 py-3 text-sm"
         />
       </label>

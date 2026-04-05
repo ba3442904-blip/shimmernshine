@@ -9,11 +9,12 @@ import SettingsSaveButton from "@/components/SettingsSaveButton";
 export default async function AdminSettingsPage({
   searchParams,
 }: {
-  searchParams: { saved?: string };
+  searchParams: Promise<{ saved?: string }>;
 }) {
   await requireAdmin();
   const settings = await getSettings();
-  const saved = searchParams?.saved === "1";
+  const params = await searchParams;
+  const saved = params?.saved === "1";
 
   async function saveSettings(formData: FormData) {
     "use server";

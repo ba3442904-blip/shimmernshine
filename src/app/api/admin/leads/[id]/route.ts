@@ -4,13 +4,14 @@ import { requireAdmin } from "@/lib/requireAdmin";
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await requireAdmin();
+  const { id } = await params;
   const db = getDb();
 
   try {
-    await db.lead.delete({ where: { id: params.id } });
+    await db.lead.delete({ where: { id } });
   } catch {
     return NextResponse.json({ error: "Failed to delete lead." }, { status: 500 });
   }

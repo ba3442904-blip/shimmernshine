@@ -46,12 +46,13 @@ function isLeadType(value: string): value is LeadType {
 export default async function AdminLeadsPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
   await requireAdmin();
   const db = getDb();
-  const status = searchParams?.status ?? "all";
-  const type = searchParams?.type ?? "all";
+  const { status: statusParam, type: typeParam } = await searchParams ?? {};
+  const status = statusParam ?? "all";
+  const type = typeParam ?? "all";
 
   const where: Prisma.LeadWhereInput = {};
   if (status !== "all" && isLeadStatus(status)) {
@@ -72,11 +73,62 @@ export default async function AdminLeadsPage({
     await requireAdmin();
     const db = getDb();
     const leadId = String(formData.get("leadId"));
-    const statusValue = String(formData.get("status"));
+    const statusValue = String(formData.get("status")) as LeadStatus;
+
+    const lead = await db.lead.findUnique({
+      where: { id: leadId },
+      include: { service: true, calendarEvent: true },
+    });
+
     await db.lead.update({
       where: { id: leadId },
-      data: { status: statusValue as LeadStatus },
+      data: { status: statusValue },
     });
+
+    // Calendar sync
+    if (lead) {
+      try {
+        const { getAuthedClient, createCalendarEvent, deleteCalendarEvent } =
+          await import("@/lib/googleCalendar");
+
+        // Find the connected calendar token
+        const token = await db.googleCalendarToken.findFirst();
+        if (token) {
+          const authed = await getAuthedClient(token.userId);
+          if (authed) {
+            if (statusValue === "scheduled" && !lead.calendarEvent) {
+              // Create calendar event
+              const event = await createCalendarEvent(authed, lead);
+              if (event.id) {
+                await db.calendarEvent.create({
+                  data: {
+                    leadId,
+                    googleEventId: event.id,
+                    calendarId: token.calendarId,
+                  },
+                });
+              }
+            } else if (
+              lead.calendarEvent &&
+              (statusValue === "completed" || statusValue === "archived")
+            ) {
+              // Delete calendar event
+              try {
+                await deleteCalendarEvent(authed, lead.calendarEvent.googleEventId);
+              } catch {
+                // Event may already be deleted
+              }
+              await db.calendarEvent.delete({
+                where: { id: lead.calendarEvent.id },
+              });
+            }
+          }
+        }
+      } catch {
+        // Calendar sync failure shouldn't block status update
+      }
+    }
+
     revalidatePath("/admin/leads");
   }
 

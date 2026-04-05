@@ -1,7 +1,5 @@
-import Button from "@/components/Button";
-import Card from "@/components/Card";
 import Container from "@/components/Container";
-import PricingTable from "@/components/PricingTable";
+import QuoteEstimator from "@/components/QuoteEstimator";
 import { getPublicAddOns, getPublicServices } from "@/lib/siteData";
 
 export default async function PricingPage() {
@@ -19,11 +17,11 @@ export default async function PricingPage() {
               Pricing
             </div>
             <h1 className="mt-3 text-4xl font-semibold">
-              Transparent pricing with no surprises.
+              Build your custom quote.
             </h1>
             <p className="mt-4 text-lg text-[var(--muted)]">
-              Select your vehicle size to view starting prices. Final quotes may adjust
-              based on condition.
+              Select your vehicle size, pick services and add-ons, and see your
+              estimated total instantly.
             </p>
           </div>
         </Container>
@@ -31,38 +29,7 @@ export default async function PricingPage() {
 
       <section>
         <Container>
-          <PricingTable services={services} />
-        </Container>
-      </section>
-
-      <section>
-        <Container>
-          <Card className="bg-[var(--surface2)]">
-            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                  Maintenance plans
-                </div>
-                <h2 className="mt-3 text-3xl font-semibold">
-                  Keep your vehicle spotless year-round.
-                </h2>
-                <p className="mt-3 text-[var(--muted)]">
-                  Choose monthly or biweekly visits for consistent protection and
-                  preferred scheduling.
-                </p>
-                <Button href="/contact" className="mt-4">
-                  Ask about plans
-                </Button>
-              </div>
-              <div className="grid gap-3 text-sm text-[var(--muted)]">
-                {addOns.slice(0, 4).map((addOn) => (
-                  <div key={addOn.id} className="rounded-2xl bg-[var(--surface)] p-4">
-                    {addOn.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Card>
+          <QuoteEstimator services={services} addOns={addOns} />
         </Container>
       </section>
     </div>

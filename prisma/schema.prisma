@@ -43,11 +43,12 @@ enum GalleryCategory {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  role         Role     @default(owner)
-  createdAt    DateTime @default(now())
+  id             String                @id @default(cuid())
+  email          String                @unique
+  passwordHash   String
+  role           Role                  @default(owner)
+  createdAt      DateTime              @default(now())
+  calendarToken  GoogleCalendarToken?
 }
 
 model Lead {
@@ -65,7 +66,8 @@ model Lead {
   status        LeadStatus @default(new)
   createdAt     DateTime   @default(now())
 
-  service Service? @relation(fields: [serviceId], references: [id])
+  service       Service?        @relation(fields: [serviceId], references: [id])
+  calendarEvent CalendarEvent?
 }
 
 model Service {
@@ -137,4 +139,28 @@ model FAQ {
 model Setting {
   key   String @id
   value String
+}
+
+model GoogleCalendarToken {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  accessToken   String
+  refreshToken  String
+  expiresAt     DateTime
+  calendarId    String    @default("primary")
+  channelId     String?
+  resourceId    String?
+  channelExpiry DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id])
+}
+
+model CalendarEvent {
+  id            String   @id @default(cuid())
+  leadId        String   @unique
+  googleEventId String   @unique
+  calendarId    String   @default("primary")
+  syncedAt      DateTime @default(now())
+  lead          Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
 }
