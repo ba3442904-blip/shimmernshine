@@ -134,18 +134,15 @@ export async function deleteCalendarEvent(
   });
 }
 
-/** Fixed 2-hour block start times per day of week */
-function getSlotStartHours(day: number, dateStr: string): number[] {
-  // Starting May 30 2026, weekdays shift to full-day hours (8am-6pm)
-  const summerStart = "2026-05-30";
-  const isExpanded = dateStr >= summerStart;
-
+/** Business hours window per day, with summer expansion */
+function getBusinessHours(day: number, dateStr: string): { startHour: number; endHour: number } {
+  const isExpanded = dateStr >= "2026-05-30";
   switch (day) {
-    case 0: return [10, 13, 15];       // Sunday: 10am, 1pm, 3pm
-    case 6: return [8, 10, 13, 15];    // Saturday: 8am, 10am, 1pm, 3pm
+    case 0: return { startHour: 10, endHour: 18 }; // Sunday 10am-6pm
+    case 6: return { startHour: 8, endHour: 18 };   // Saturday 8am-6pm
     default: return isExpanded
-      ? [8, 10, 13, 15]               // Mon-Fri (summer): 8am, 10am, 1pm, 3pm
-      : [15, 17];                      // Mon-Fri (school year): 3pm, 5pm
+      ? { startHour: 8, endHour: 18 }               // Mon-Fri (summer) 8am-6pm
+      : { startHour: 15, endHour: 18 };              // Mon-Fri (school year) 3pm-6pm
   }
 }
 
@@ -155,26 +152,26 @@ export async function getAvailableSlots(
   _durationMins: number
 ) {
   const dateObj = new Date(`${date}T12:00:00`);
-  const startHours = getSlotStartHours(dateObj.getDay(), date);
+  const hours = getBusinessHours(dateObj.getDay(), date);
 
-  if (startHours.length === 0) return [];
+  const MIN_SLOT_MS = 2 * 60 * 60 * 1000; // need at least 2 hours free
+  const STEP_MS = 30 * 60 * 1000;          // 30-minute increments
 
-  const SLOT_MS = 2 * 60 * 60 * 1000; // 2-hour blocks
+  const dayStart = toTimezoneDate(
+    `${date}T${String(hours.startHour).padStart(2, "0")}:00:00`,
+    BUSINESS_TIMEZONE
+  );
+  const dayEnd = toTimezoneDate(
+    `${date}T${String(hours.endHour).padStart(2, "0")}:00:00`,
+    BUSINESS_TIMEZONE
+  );
 
-  // Build slot start/end times in business timezone
-  const slotTimes = startHours.map((h) => {
-    const startStr = `${date}T${String(h).padStart(2, "0")}:00:00`;
-    const start = toTimezoneDate(startStr, BUSINESS_TIMEZONE);
-    const end = new Date(start.getTime() + SLOT_MS);
-    return { start, end };
-  });
-
-  // Query freebusy for the full window
+  // Query Google Calendar for busy periods
   const calendar = google.calendar({ version: "v3", auth: authedClient.client });
   const res = await calendar.freebusy.query({
     requestBody: {
-      timeMin: slotTimes[0].start.toISOString(),
-      timeMax: slotTimes[slotTimes.length - 1].end.toISOString(),
+      timeMin: dayStart.toISOString(),
+      timeMax: dayEnd.toISOString(),
       timeZone: BUSINESS_TIMEZONE,
       items: [{ id: authedClient.calendarId }],
     },
@@ -183,18 +180,30 @@ export async function getAvailableSlots(
   const busySlots =
     res.data.calendars?.[authedClient.calendarId]?.busy ?? [];
 
-  return slotTimes
-    .filter(({ start, end }) =>
-      !busySlots.some((busy) => {
-        const busyStart = new Date(busy.start!).getTime();
-        const busyEnd = new Date(busy.end!).getTime();
-        return start.getTime() < busyEnd && end.getTime() > busyStart;
-      })
-    )
-    .map(({ start, end }) => ({
-      start: start.toISOString(),
-      end: end.toISOString(),
-    }));
+  const slots: { start: string; end: string }[] = [];
+
+  // Walk in 30-min steps; only offer a slot if the full 2-hour window is clear
+  for (
+    let t = dayStart.getTime();
+    t + MIN_SLOT_MS <= dayEnd.getTime();
+    t += STEP_MS
+  ) {
+    const slotEnd = t + MIN_SLOT_MS;
+    const overlaps = busySlots.some((busy) => {
+      const bs = new Date(busy.start!).getTime();
+      const be = new Date(busy.end!).getTime();
+      return t < be && slotEnd > bs;
+    });
+
+    if (!overlaps) {
+      slots.push({
+        start: new Date(t).toISOString(),
+        end: new Date(slotEnd).toISOString(),
+      });
+    }
+  }
+
+  return slots;
 }
 
 export async function registerWatch(
