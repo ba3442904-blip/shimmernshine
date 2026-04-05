@@ -150,6 +150,7 @@ export default async function AdminLeadsPage({
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="text-sm font-semibold">Leads</div>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
             href="/api/admin/leads/export"
             className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"

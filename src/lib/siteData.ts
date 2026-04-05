@@ -14,7 +14,6 @@ const keys = [
   "trustBadges",
 ] as const;
 
-type SettingsKey = (typeof keys)[number];
 
 function safeParse<T>(value: string | null, fallback: T): T {
   if (!value) return fallback;
