@@ -124,8 +124,8 @@ export default async function AdminLeadsPage({
             }
           }
         }
-      } catch {
-        // Calendar sync failure shouldn't block status update
+      } catch (err) {
+        console.error("[Calendar Sync Error]", err);
       }
     }
 
