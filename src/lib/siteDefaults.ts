@@ -56,6 +56,7 @@ export const siteDefaults = {
     instagramEmbedCode: "",
     googleReviewsEmbedUrl: "",
     googleReviewsElfsightAppId: "",
+    calendarEmbedUrl: "",
   },
   trustBadges: ["5-star rated", "Fully insured", "We come to you", "Same-day slots"],
 };

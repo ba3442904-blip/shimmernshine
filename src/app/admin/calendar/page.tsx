@@ -3,6 +3,7 @@ import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
 import { getAuthedClient, registerWatch } from "@/lib/googleCalendar";
+import { getSettings } from "@/lib/siteData";
 
 export default async function AdminCalendarPage({
   searchParams,
@@ -18,6 +19,8 @@ export default async function AdminCalendarPage({
   });
 
   const isConnected = !!token;
+  const settings = await getSettings();
+  const calendarEmbedUrl = settings.integrations.calendarEmbedUrl;
 
   async function setupWatch() {
     "use server";
@@ -148,22 +151,24 @@ export default async function AdminCalendarPage({
         </div>
       </Card>
 
-      <Card>
-        <div className="grid gap-3">
-          <div className="text-sm font-semibold">Calendar View</div>
-          <div className="w-full overflow-hidden rounded-lg">
-            <iframe
-              src="https://calendar.google.com/calendar/embed?src=claudepremium0%40gmail.com&ctz=America%2FNew_York"
-              style={{ border: 0 }}
-              width="800"
-              height="600"
-              frameBorder="0"
-              scrolling="no"
-              className="w-full"
-            />
+      {calendarEmbedUrl && (
+        <Card>
+          <div className="grid gap-3">
+            <div className="text-sm font-semibold">Calendar View</div>
+            <div className="w-full overflow-hidden rounded-lg">
+              <iframe
+                src={calendarEmbedUrl}
+                style={{ border: 0 }}
+                width="800"
+                height="600"
+                frameBorder="0"
+                scrolling="no"
+                className="w-full"
+              />
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      )}
     </div>
   );
 }
