@@ -1,6 +1,5 @@
 import { revalidatePath } from "next/cache";
 import Card from "@/components/Card";
-import AdminCalendarView from "@/components/admin/AdminCalendarView";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
 import { getAuthedClient, registerWatch } from "@/lib/googleCalendar";
@@ -132,7 +131,20 @@ export default async function AdminCalendarPage({
 
       {isConnected && (
         <Card className="overflow-hidden !p-0">
-          <AdminCalendarView />
+          <div className="border-b border-[var(--border)] px-5 py-4 text-sm font-semibold sm:px-6">
+            Event Calendar
+          </div>
+          <div className="w-full overflow-hidden" style={{ height: "600px" }}>
+            <iframe
+              src="https://calendar.google.com/calendar/embed?src=claudepremium0%40gmail.com&ctz=America%2FNew_York"
+              style={{ border: 0 }}
+              width="100%"
+              height="600"
+              frameBorder={0}
+              scrolling="no"
+              title="Event Calendar"
+            />
+          </div>
         </Card>
       )}
 
