@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       lead.address ? `<b>Address:</b> ${lead.address}` : "",
       lead.notes ? `<b>Notes:</b> ${lead.notes}` : "",
     ];
-    sendTelegramMessage(lines.filter(Boolean).join("\n"));
+    await sendTelegramMessage(lines.filter(Boolean).join("\n"));
   } catch {
     return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
   }
