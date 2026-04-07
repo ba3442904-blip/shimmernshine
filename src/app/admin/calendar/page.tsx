@@ -147,6 +147,23 @@ export default async function AdminCalendarPage({
           </ul>
         </div>
       </Card>
+
+      <Card>
+        <div className="grid gap-3">
+          <div className="text-sm font-semibold">Calendar View</div>
+          <div className="w-full overflow-hidden rounded-lg">
+            <iframe
+              src="https://calendar.google.com/calendar/embed?src=claudepremium0%40gmail.com&ctz=America%2FNew_York"
+              style={{ border: 0 }}
+              width="800"
+              height="600"
+              frameBorder="0"
+              scrolling="no"
+              className="w-full"
+            />
+          </div>
+        </div>
+      </Card>
     </div>
   );
 }
