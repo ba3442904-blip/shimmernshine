@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { LeadStatus, LeadType, Prisma } from "@prisma/client";
+import Link from "next/link";
 import { getDb } from "@/lib/prisma";
 import Card from "@/components/Card";
 import DeleteLeadButton from "@/components/DeleteLeadButton";
@@ -150,12 +151,12 @@ export default async function AdminLeadsPage({
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="text-sm font-semibold">Leads</div>
-          <a
+          <Link
             href="/api/admin/leads/export"
             className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
           >
             Export CSV
-          </a>
+          </Link>
         </div>
         <div className="mt-4 grid gap-3">
           <div className="flex flex-wrap gap-2 text-xs font-semibold">

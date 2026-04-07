@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 
 type GalleryImage = {
@@ -55,12 +56,14 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
             className="mb-4 w-full rounded-3xl bg-[var(--surface2)] p-3 text-left shadow-[var(--shadow-soft)]"
             onClick={() => setActiveIndex(index)}
           >
-            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--surface)] shadow-sm">
-              <img
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--surface)] shadow-sm">
+              <Image
                 src={image.url}
                 alt={image.alt}
-                className="h-full w-full object-cover"
-                loading="lazy"
+                fill
+                unoptimized
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
           </button>
@@ -84,11 +87,14 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
                 Close
               </button>
             </div>
-            <div className="mt-4 aspect-[16/9] overflow-hidden rounded-2xl bg-[var(--surface2)]">
-              <img
+            <div className="relative mt-4 aspect-[16/9] overflow-hidden rounded-2xl bg-[var(--surface2)]">
+              <Image
                 src={activeImage.url}
                 alt={activeImage.alt}
-                className="h-full w-full object-contain bg-black"
+                fill
+                unoptimized
+                className="object-contain bg-black"
+                sizes="(max-width: 768px) 100vw, 768px"
               />
             </div>
             <div className="mt-4 flex justify-between">
