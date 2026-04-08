@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, Roboto } from "next/font/google";
+import { Fraunces, Inter, Roboto, Rubik } from "next/font/google";
 import "./globals.css";
 import "./mobile.css";
 import NumberInputGuard from "@/components/NumberInputGuard";
@@ -24,6 +24,12 @@ const roboto = Roboto({
   weight: ["400", "500", "700"],
 });
 
+const rubik = Rubik({
+  variable: "--font-rubik",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
   title: "Shimmer N Shine Detailing",
   description: "Premium mobile auto detailing with effortless booking.",
@@ -37,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${fraunces.variable} ${roboto.variable} antialiased`}
+        className={`${inter.variable} ${fraunces.variable} ${roboto.variable} ${rubik.variable} antialiased`}
       >
         <ThemeSync />
         <NumberInputGuard />
