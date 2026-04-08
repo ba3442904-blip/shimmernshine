@@ -217,17 +217,6 @@ textarea:focus {
   box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.admin-scope .btn-primary:hover,
-.admin-scope .btn-secondary:hover {
-  box-shadow: none;
-}
-
-.admin-scope .btn-primary,
-.admin-scope .btn-secondary,
-.admin-scope .card-hover {
-  transition: none;
-}
-
 .admin-scope .faq-save-cta {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
@@ -239,6 +228,33 @@ textarea:focus {
     0 10px 24px rgba(0, 0, 0, 0.35),
     0 0 0 1px rgba(92, 199, 255, 0.12);
 }
+
+/* ── Global interactive button styles ── */
+
+button,
+a.rounded-full,
+a.rounded-xl,
+a.btn-primary,
+a.btn-secondary,
+a.btn-ghost {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease,
+    background 0.15s ease, border-color 0.15s ease;
+}
+
+button:hover:not(:disabled),
+a.rounded-full:hover,
+a.rounded-xl:hover {
+  transform: scale(1.03);
+}
+
+button:active:not(:disabled),
+a.rounded-full:active,
+a.rounded-xl:active {
+  transform: scale(0.97);
+  filter: brightness(0.92);
+}
+
+/* ── Button variants ── */
 
 .btn-primary {
   background: linear-gradient(120deg, var(--accent), var(--accent2));
@@ -257,9 +273,17 @@ textarea:focus {
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
+.btn-primary:active {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
 .btn-secondary:hover {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.btn-secondary:active {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
 }
 
 .input-surface {

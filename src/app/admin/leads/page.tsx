@@ -69,12 +69,13 @@ export default async function AdminLeadsPage({
     include: { service: true },
   });
 
-  async function updateStatus(formData: FormData) {
+  async function updateLead(formData: FormData) {
     "use server";
     await requireAdmin();
     const db = getDb();
     const leadId = String(formData.get("leadId"));
     const statusValue = String(formData.get("status")) as LeadStatus;
+    const internalNotes = String(formData.get("internalNotes") || "");
 
     const lead = await db.lead.findUnique({
       where: { id: leadId },
@@ -83,7 +84,7 @@ export default async function AdminLeadsPage({
 
     await db.lead.update({
       where: { id: leadId },
-      data: { status: statusValue },
+      data: { status: statusValue, internalNotes },
     });
 
     // Calendar sync
@@ -92,13 +93,11 @@ export default async function AdminLeadsPage({
         const { getAuthedClient, createCalendarEvent, deleteCalendarEvent } =
           await import("@/lib/googleCalendar");
 
-        // Find the connected calendar token
         const token = await db.googleCalendarToken.findFirst();
         if (token) {
           const authed = await getAuthedClient(token.userId);
           if (authed) {
             if (statusValue === "scheduled" && !lead.calendarEvent) {
-              // Create calendar event
               const event = await createCalendarEvent(authed, lead);
               if (event.id) {
                 await db.calendarEvent.create({
@@ -113,7 +112,6 @@ export default async function AdminLeadsPage({
               lead.calendarEvent &&
               (statusValue === "completed" || statusValue === "archived")
             ) {
-              // Delete calendar event
               try {
                 await deleteCalendarEvent(authed, lead.calendarEvent.googleEventId);
               } catch {
@@ -130,19 +128,6 @@ export default async function AdminLeadsPage({
       }
     }
 
-    revalidatePath("/admin/leads");
-  }
-
-  async function updateNotes(formData: FormData) {
-    "use server";
-    await requireAdmin();
-    const db = getDb();
-    const leadId = String(formData.get("leadId"));
-    const internalNotes = String(formData.get("internalNotes") || "");
-    await db.lead.update({
-      where: { id: leadId },
-      data: { internalNotes },
-    });
     revalidatePath("/admin/leads");
   }
 
@@ -226,7 +211,7 @@ export default async function AdminLeadsPage({
                 Client notes: {lead.notes}
               </div>
             ) : null}
-            <form action={updateNotes} className="grid gap-2">
+            <form action={updateLead} className="grid gap-3">
               <input type="hidden" name="leadId" value={lead.id} />
               <label className="text-xs font-semibold text-[var(--muted)]">
                 Internal notes
@@ -237,12 +222,6 @@ export default async function AdminLeadsPage({
                 rows={2}
                 className="input-surface rounded-xl px-3 py-2 text-xs"
               />
-              <button className="self-start rounded-full border border-[var(--border)] px-3 py-2 text-xs font-semibold">
-                Save notes
-              </button>
-            </form>
-            <form action={updateStatus} className="grid gap-3">
-              <input type="hidden" name="leadId" value={lead.id} />
               <div className="flex items-center gap-3">
                 <select
                   name="status"
@@ -256,7 +235,7 @@ export default async function AdminLeadsPage({
                   ))}
                 </select>
                 <button className="rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
-                  Update status
+                  Save
                 </button>
               </div>
               <div className="flex flex-wrap gap-2">
