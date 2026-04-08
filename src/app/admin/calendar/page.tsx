@@ -3,6 +3,7 @@ import Card from "@/components/Card";
 import { getDb } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
 import { getAuthedClient, registerWatch } from "@/lib/googleCalendar";
+import { getSettings } from "@/lib/siteData";
 
 export default async function AdminCalendarPage({
   searchParams,
@@ -18,6 +19,8 @@ export default async function AdminCalendarPage({
   });
 
   const isConnected = !!token;
+  const settings = await getSettings();
+  const calendarEmbedUrl = settings.integrations.calendarEmbedUrl;
 
   async function setupWatch() {
     "use server";
@@ -162,6 +165,23 @@ export default async function AdminCalendarPage({
           </ul>
         </div>
       </Card>
+
+      {calendarEmbedUrl && (
+        <Card>
+          <div className="grid gap-3">
+            <div className="text-sm font-semibold">Calendar View</div>
+            <div className="w-full overflow-hidden rounded-lg">
+              <iframe
+                src={calendarEmbedUrl}
+                style={{ border: 0 }}
+                frameBorder="0"
+                scrolling="no"
+                className="h-[400px] w-full sm:h-[600px]"
+              />
+            </div>
+          </div>
+        </Card>
+      )}
     </div>
   );
 }

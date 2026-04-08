@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getDb } from "@/lib/prisma";
 import { leadSchema } from "@/lib/validators";
 import { rateLimit } from "@/lib/rateLimit";
+import { sendTelegramMessage } from "@/lib/telegram";
 
 export async function POST(req: Request) {
   const db = getDb();
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
       );
     }
 
-    await db.lead.create({
+    const lead = await db.lead.create({
       data: {
         type: data.type,
         name: data.name,
@@ -55,7 +56,22 @@ export async function POST(req: Request) {
         address: data.address || null,
         notes: data.notes || null,
       },
+      include: { service: true },
     });
+
+    const label = lead.type === "booking" ? "Booking" : "Quote";
+    const lines = [
+      `<b>New ${label} Request</b>`,
+      `<b>Name:</b> ${lead.name}`,
+      `<b>Phone:</b> ${lead.phone}`,
+      lead.email ? `<b>Email:</b> ${lead.email}` : "",
+      lead.service ? `<b>Service:</b> ${lead.service.name}` : "",
+      lead.vehicleType ? `<b>Vehicle:</b> ${lead.vehicleType}` : "",
+      lead.preferredDate ? `<b>Preferred date:</b> ${lead.preferredDate}` : "",
+      lead.address ? `<b>Address:</b> ${lead.address}` : "",
+      lead.notes ? `<b>Notes:</b> ${lead.notes}` : "",
+    ];
+    await sendTelegramMessage(lines.filter(Boolean).join("\n"));
   } catch {
     return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
   }

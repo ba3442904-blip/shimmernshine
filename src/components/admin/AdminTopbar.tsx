@@ -13,6 +13,7 @@ const links = [
   { label: "Gallery", href: "/admin/gallery" },
   { label: "Reviews", href: "/admin/reviews" },
   { label: "FAQs", href: "/admin/faq" },
+  { label: "Calendar", href: "/admin/calendar" },
   { label: "Settings", href: "/admin/settings" },
 ];
 

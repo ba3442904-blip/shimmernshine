@@ -56,6 +56,7 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
             onClick={() => setActiveIndex(index)}
           >
             <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--surface)] shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={image.url}
                 alt={image.alt}
@@ -85,6 +86,7 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
               </button>
             </div>
             <div className="mt-4 aspect-[16/9] overflow-hidden rounded-2xl bg-[var(--surface2)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={activeImage.url}
                 alt={activeImage.alt}

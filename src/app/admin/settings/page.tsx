@@ -78,6 +78,7 @@ export default async function AdminSettingsPage({
         formData.get("googleReviewsElfsightAppId") || ""
       ),
       googleReviewsEmbedUrl: String(formData.get("googleReviewsEmbedUrl") || ""),
+      calendarEmbedUrl: String(formData.get("calendarEmbedUrl") || ""),
     };
 
     const trustBadges = String(formData.get("trustBadges") || "")
@@ -296,6 +297,12 @@ export default async function AdminSettingsPage({
               name="googleReviewsEmbedUrl"
               defaultValue={settings.integrations.googleReviewsEmbedUrl}
               placeholder="Legacy Google reviews iframe URL (optional)"
+              className="input-surface rounded-xl px-3 py-2 text-sm md:col-span-2"
+            />
+            <input
+              name="calendarEmbedUrl"
+              defaultValue={settings.integrations.calendarEmbedUrl}
+              placeholder="Google Calendar embed URL"
               className="input-surface rounded-xl px-3 py-2 text-sm md:col-span-2"
             />
           </div>

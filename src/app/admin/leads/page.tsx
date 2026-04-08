@@ -3,6 +3,7 @@ import { LeadStatus, LeadType, Prisma } from "@prisma/client";
 import { getDb } from "@/lib/prisma";
 import Card from "@/components/Card";
 import DeleteLeadButton from "@/components/DeleteLeadButton";
+import LocalDate from "@/components/LocalDate";
 import { requireAdmin } from "@/lib/requireAdmin";
 
 type SearchParams = {
@@ -124,8 +125,8 @@ export default async function AdminLeadsPage({
             }
           }
         }
-      } catch {
-        // Calendar sync failure shouldn't block status update
+      } catch (err) {
+        console.error("[Calendar Sync Error]", err);
       }
     }
 
@@ -150,6 +151,7 @@ export default async function AdminLeadsPage({
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="text-sm font-semibold">Leads</div>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
             href="/api/admin/leads/export"
             className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
@@ -210,15 +212,7 @@ export default async function AdminLeadsPage({
                   {toLabel(lead.type)} - {toLabel(lead.status)}
                 </div>
                 <div className="text-xs text-[var(--muted)]">
-                  {lead.createdAt.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}{" "}
-                  {lead.createdAt.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  })}
+                  <LocalDate date={lead.createdAt.toISOString()} />
                 </div>
               </div>
             </div>
