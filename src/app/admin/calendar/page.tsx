@@ -159,11 +159,9 @@ export default async function AdminCalendarPage({
               <iframe
                 src={calendarEmbedUrl}
                 style={{ border: 0 }}
-                width="800"
-                height="600"
                 frameBorder="0"
                 scrolling="no"
-                className="w-full"
+                className="h-[400px] w-full sm:h-[600px]"
               />
             </div>
           </div>
