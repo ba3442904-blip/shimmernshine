@@ -241,37 +241,41 @@ export default async function AdminLeadsPage({
                 Save notes
               </button>
             </form>
-            <form action={updateStatus} className="flex flex-wrap items-center gap-3">
+            <form action={updateStatus} className="grid gap-3">
               <input type="hidden" name="leadId" value={lead.id} />
-              <select
-                name="status"
-                defaultValue={lead.status}
-                className="input-surface rounded-xl px-3 py-2 text-xs"
-              >
-                {STATUS_OPTIONS.map((s) => (
-                  <option key={s} value={s}>
-                    {toLabel(s)}
-                  </option>
-                ))}
-              </select>
-              <button className="rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
-                Update status
-              </button>
-              <a
-                href={`tel:${lead.phone}`}
-                className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
-              >
-                Call
-              </a>
-              {lead.email ? (
+              <div className="flex items-center gap-3">
+                <select
+                  name="status"
+                  defaultValue={lead.status}
+                  className="input-surface rounded-xl px-3 py-2 text-xs"
+                >
+                  {STATUS_OPTIONS.map((s) => (
+                    <option key={s} value={s}>
+                      {toLabel(s)}
+                    </option>
+                  ))}
+                </select>
+                <button className="rounded-full bg-[var(--primary)] px-4 py-2 text-xs font-semibold text-white">
+                  Update status
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
                 <a
-                  href={`mailto:${lead.email}`}
+                  href={`tel:${lead.phone}`}
                   className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
                 >
-                  Email
+                  Call
                 </a>
-              ) : null}
-              <DeleteLeadButton leadId={lead.id} />
+                {lead.email ? (
+                  <a
+                    href={`mailto:${lead.email}`}
+                    className="rounded-full border border-[var(--border)] px-4 py-2 text-xs font-semibold"
+                  >
+                    Email
+                  </a>
+                ) : null}
+                <DeleteLeadButton leadId={lead.id} />
+              </div>
             </form>
           </Card>
         ))}

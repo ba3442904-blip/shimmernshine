@@ -70,16 +70,16 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
 
       {activeImage ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-6"
           role="dialog"
           aria-modal="true"
         >
-          <div className="max-w-3xl rounded-3xl bg-[var(--surface)] p-6 shadow-xl">
+          <div className="w-full max-w-3xl rounded-3xl bg-[var(--surface)] p-4 shadow-xl sm:p-6">
             <div className="flex items-center justify-between">
               <div className="text-sm font-semibold">{activeImage.alt}</div>
               <button
                 type="button"
-                className="rounded-full border border-[var(--border)] px-3 py-2 text-xs"
+                className="min-h-[44px] rounded-full border border-[var(--border)] px-4 py-2 text-xs"
                 onClick={() => setActiveIndex(null)}
               >
                 Close
@@ -96,7 +96,7 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
             <div className="mt-4 flex justify-between">
               <button
                 type="button"
-                className="text-sm font-semibold text-[var(--primary)]"
+                className="min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold text-[var(--primary)]"
                 onClick={() =>
                   setActiveIndex((prev) => (prev && prev > 0 ? prev - 1 : prev))
                 }
@@ -105,7 +105,7 @@ export default function LightboxGallery({ images }: { images: GalleryImage[] }) 
               </button>
               <button
                 type="button"
-                className="text-sm font-semibold text-[var(--primary)]"
+                className="min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold text-[var(--primary)]"
                 onClick={() =>
                   setActiveIndex((prev) =>
                     prev !== null && prev < filtered.length - 1 ? prev + 1 : prev
