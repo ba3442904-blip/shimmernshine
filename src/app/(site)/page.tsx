@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Button from "@/components/Button";
+import Card from "@/components/Card";
 import Container from "@/components/Container";
 import FAQAccordion from "@/components/FAQAccordion";
 import ElfsightGoogleReviews from "@/components/ElfsightGoogleReviews";
 import InstagramEmbed from "@/components/InstagramEmbed";
 import InstantQuoteForm from "@/components/InstantQuoteForm";
 import ServiceCard from "@/components/ServiceCard";
-import TargoHero from "@/components/TargoHero";
 import { getPublicFaq, getPublicServices, getSettings } from "@/lib/siteData";
 
 export default async function HomePage() {
@@ -16,30 +16,29 @@ export default async function HomePage() {
     getPublicFaq(),
   ]);
 
-  const bookingHref =
-    settings.booking.mode === "external" && settings.booking.bookingUrl
-      ? settings.booking.bookingUrl
-      : "/book";
-
   return (
-    <div className="flex flex-col gap-20 pb-24">
-      <TargoHero bookingHref={bookingHref} phone={settings.businessInfo.phone} />
-
+    <div className="flex flex-col gap-20 pb-24 pt-12">
       <section>
         <Container>
-          <div className="grid items-start gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <div className="mb-4 inline-flex rounded-full bg-[var(--primary-soft)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
                 DMV&apos;s Mobile Detailer
               </div>
-              <h2 className="text-3xl font-semibold leading-tight sm:text-4xl">
-                No drop-offs. No waiting.
-              </h2>
+              <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
+                Your Car Detailed. In Your Driveway.
+              </h1>
               <p className="mt-4 max-w-xl text-lg text-[var(--muted)]">
-                We come to you with pro-grade products and leave your vehicle looking
-                its absolute best.
+                No drop-offs. No waiting. We come to you with pro-grade products and leave
+                your vehicle looking its absolute best.
               </p>
               <div className="mt-4 shine-bar" />
+              <div className="mt-6 flex flex-wrap gap-4">
+                <Button href="/book">Book Now</Button>
+                <Button href="/contact" variant="secondary">
+                  Get a Quote
+                </Button>
+              </div>
               <div className="mt-6 flex flex-wrap gap-3 text-xs font-semibold text-[var(--muted)]">
                 {settings.trustBadges.map((badge) => (
                   <span
@@ -51,7 +50,24 @@ export default async function HomePage() {
                 ))}
               </div>
             </div>
-            <InstantQuoteForm services={services} />
+            <div className="grid gap-4">
+              <Card className="bg-gradient-to-br from-[var(--surface)] via-[var(--surface2)] to-[#0b1020]">
+                <div className="text-sm font-semibold">Detailing result preview</div>
+                <div className="mt-4 aspect-[16/10] overflow-hidden rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center">
+                  {settings.hero?.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={settings.hero.imageUrl}
+                      alt="Hero detailing"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    "Hero image placeholder"
+                  )}
+                </div>
+              </Card>
+              <InstantQuoteForm services={services} />
+            </div>
           </div>
         </Container>
       </section>
