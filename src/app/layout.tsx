@@ -39,6 +39,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${fraunces.variable} ${roboto.variable} antialiased`}
       >
+        {/* Gates scroll-reveal hidden states so content stays visible without JS */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add("js");`,
+          }}
+        />
         <ThemeSync />
         <NumberInputGuard />
         {children}

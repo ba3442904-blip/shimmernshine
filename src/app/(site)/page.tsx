@@ -6,6 +6,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import ElfsightGoogleReviews from "@/components/ElfsightGoogleReviews";
 import InstagramEmbed from "@/components/InstagramEmbed";
 import InstantQuoteForm from "@/components/InstantQuoteForm";
+import Reveal from "@/components/Reveal";
 import ServiceCard from "@/components/ServiceCard";
 import { getPublicFaq, getPublicServices, getSettings } from "@/lib/siteData";
 
@@ -18,28 +19,36 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col gap-20 pb-24 pt-12">
-      <section>
-        <Container>
+      <section className="relative">
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="hero-glow left-[-10%] top-[-20%] h-72 w-72 bg-[var(--accent)]" />
+          <div
+            className="hero-glow bottom-[-25%] right-[5%] h-80 w-80 bg-[var(--accent2)]"
+            style={{ animationDelay: "-7s" }}
+          />
+        </div>
+        <div className="relative">
+          <Container>
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <div className="mb-4 inline-flex rounded-full bg-[var(--primary-soft)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+              <div className="hero-enter mb-4 inline-flex rounded-full bg-[var(--primary-soft)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
                 DMV&apos;s Mobile Detailer
               </div>
-              <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
-                Your Car Detailed. In Your Driveway.
+              <h1 className="hero-enter delay-1 text-4xl font-semibold leading-tight sm:text-5xl">
+                Your Car <span className="text-shimmer">Detailed.</span> In Your Driveway.
               </h1>
-              <p className="mt-4 max-w-xl text-lg text-[var(--muted)]">
+              <p className="hero-enter delay-2 mt-4 max-w-xl text-lg text-[var(--muted)]">
                 No drop-offs. No waiting. We come to you with pro-grade products and leave
                 your vehicle looking its absolute best.
               </p>
-              <div className="mt-4 shine-bar" />
-              <div className="mt-6 flex flex-wrap gap-4">
+              <div className="hero-enter delay-2 mt-4 shine-bar" />
+              <div className="hero-enter delay-3 mt-6 flex flex-wrap gap-4">
                 <Button href="/book">Book Now</Button>
                 <Button href="/contact" variant="secondary">
                   Get a Quote
                 </Button>
               </div>
-              <div className="mt-6 flex flex-wrap gap-3 text-xs font-semibold text-[var(--muted)]">
+              <div className="hero-enter delay-4 mt-6 flex flex-wrap gap-3 text-xs font-semibold text-[var(--muted)]">
                 {settings.trustBadges.map((badge) => (
                   <span
                     key={badge}
@@ -50,7 +59,7 @@ export default async function HomePage() {
                 ))}
               </div>
             </div>
-            <div className="grid gap-4">
+            <div className="hero-enter delay-3 grid gap-4">
               <Card className="bg-gradient-to-br from-[var(--surface)] via-[var(--surface2)] to-[#0b1020]">
                 <div className="text-sm font-semibold">Detailing result preview</div>
                 <div className="mt-4 aspect-[16/10] overflow-hidden rounded-2xl bg-[var(--surface2)] text-xs font-semibold text-[var(--muted)] shadow-sm flex items-center justify-center">
@@ -69,11 +78,13 @@ export default async function HomePage() {
               <InstantQuoteForm services={services} />
             </div>
           </div>
-        </Container>
+          </Container>
+        </div>
       </section>
 
       <section>
         <Container>
+          <Reveal>
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
@@ -104,25 +115,30 @@ export default async function HomePage() {
               title="Posts from Instagram"
             />
           )}
+          </Reveal>
         </Container>
       </section>
 
       <section>
         <Container>
-          <div className="mb-8 flex items-end justify-between gap-4">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-                Services
+          <Reveal>
+            <div className="mb-8 flex items-end justify-between gap-4">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+                  Services
+                </div>
+                <h2 className="mt-3 text-3xl font-semibold">Pick your package. We handle the rest.</h2>
               </div>
-              <h2 className="mt-3 text-3xl font-semibold">Pick your package. We handle the rest.</h2>
+              <Link href="/services" className="text-sm font-semibold text-[var(--primary)]">
+                View all services →
+              </Link>
             </div>
-            <Link href="/services" className="text-sm font-semibold text-[var(--primary)]">
-              View all services →
-            </Link>
-          </div>
+          </Reveal>
           <div className="grid gap-6 md:grid-cols-3">
-            {services.slice(0, 3).map((service) => (
-              <ServiceCard key={service.id} service={service} />
+            {services.slice(0, 3).map((service, index) => (
+              <Reveal key={service.id} delay={index * 120} className="h-full">
+                <ServiceCard service={service} />
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -130,6 +146,7 @@ export default async function HomePage() {
 
       <section>
         <Container>
+          <Reveal>
           <div className="mb-8">
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               Google Reviews
@@ -162,11 +179,13 @@ export default async function HomePage() {
               </a>
             </div>
           )}
+          </Reveal>
         </Container>
       </section>
 
       <section>
         <Container>
+          <Reveal>
           <div className="card-surface card-hover p-8">
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               Service area
@@ -185,11 +204,13 @@ export default async function HomePage() {
               ))}
             </div>
           </div>
+          </Reveal>
         </Container>
       </section>
 
       <section>
         <Container>
+          <Reveal>
           <div className="mb-6">
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               FAQs
@@ -197,12 +218,14 @@ export default async function HomePage() {
             <h2 className="mt-3 text-3xl font-semibold">Everything you need to know. Nothing you don&apos;t.</h2>
           </div>
           <FAQAccordion items={faqs} />
+          </Reveal>
         </Container>
       </section>
 
       <section>
         <Container>
-          <div className="rounded-3xl bg-[var(--primary)] p-10 text-white shadow-[0_30px_60px_rgba(10,87,255,0.25)]">
+          <Reveal>
+          <div className="cta-animated rounded-3xl p-10 text-white shadow-[0_30px_60px_rgba(10,87,255,0.25)]">
             <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
               <div>
                 <h2 className="text-3xl font-semibold">Your driveway. Our equipment. Done right.</h2>
@@ -220,6 +243,7 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+          </Reveal>
         </Container>
       </section>
     </div>

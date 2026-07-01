@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Container from "@/components/Container";
+import Reveal from "@/components/Reveal";
 import { getPublicAddOns, getPublicServices } from "@/lib/siteData";
 
 function formatPrice(priceCents: number) {
@@ -18,13 +19,13 @@ export default async function ServicesPage() {
       <section>
         <Container>
           <div className="max-w-3xl">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+            <div className="hero-enter text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
               Services
             </div>
-            <h1 className="mt-3 text-4xl font-semibold">
+            <h1 className="hero-enter delay-1 mt-3 text-4xl font-semibold">
               Detailing packages tailored to how you drive.
             </h1>
-            <p className="mt-4 text-lg text-[var(--muted)]">
+            <p className="hero-enter delay-2 mt-4 text-lg text-[var(--muted)]">
               Every package is performed on-site with premium products and meticulous
               attention to detail.
             </p>
@@ -40,6 +41,7 @@ export default async function ServicesPage() {
         return (
           <section key={service.id}>
             <Container>
+              <Reveal>
               <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
                 <div className="space-y-4">
                   <h2 className="text-3xl font-semibold">{service.name}</h2>
@@ -68,6 +70,7 @@ export default async function ServicesPage() {
                   </ul>
                 </Card>
               </div>
+              </Reveal>
             </Container>
           </section>
         );
@@ -75,23 +78,27 @@ export default async function ServicesPage() {
 
       <section>
         <Container>
-          <div className="mb-6">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
-              Add-ons
+          <Reveal>
+            <div className="mb-6">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary)]">
+                Add-ons
+              </div>
+              <h2 className="mt-3 text-3xl font-semibold">
+                Boost your detail with specialty add-ons.
+              </h2>
             </div>
-            <h2 className="mt-3 text-3xl font-semibold">
-              Boost your detail with specialty add-ons.
-            </h2>
-          </div>
+          </Reveal>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {addOns.map((addOn) => (
-              <Card key={addOn.id} className="flex flex-col gap-3">
-                <div className="text-lg font-semibold">{addOn.name}</div>
-                <p className="text-sm text-[var(--muted)]">{addOn.description}</p>
-                <div className="text-sm font-semibold text-[var(--accent)]">
-                  Starts at {formatPrice(addOn.priceCents)}
-                </div>
-              </Card>
+            {addOns.map((addOn, index) => (
+              <Reveal key={addOn.id} delay={(index % 3) * 120} className="h-full">
+                <Card className="flex h-full flex-col gap-3">
+                  <div className="text-lg font-semibold">{addOn.name}</div>
+                  <p className="text-sm text-[var(--muted)]">{addOn.description}</p>
+                  <div className="text-sm font-semibold text-[var(--accent)]">
+                    Starts at {formatPrice(addOn.priceCents)}
+                  </div>
+                </Card>
+              </Reveal>
             ))}
           </div>
         </Container>

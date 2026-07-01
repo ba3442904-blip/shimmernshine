@@ -83,8 +83,8 @@ export default function Navbar({
       </Container>
 
       {open && (
-        <div className="fixed inset-0 z-50 bg-black/50 lg:hidden">
-          <div className="absolute left-0 right-0 top-0 rounded-b-3xl bg-[var(--surface)] p-6 shadow-xl">
+        <div className="menu-overlay fixed inset-0 z-50 bg-black/50 lg:hidden">
+          <div className="menu-panel absolute left-0 right-0 top-0 rounded-b-3xl bg-[var(--surface)] p-6 shadow-xl">
             <div className="flex items-center justify-between">
               <Link href="/" className="text-lg font-semibold">
                 {businessName}

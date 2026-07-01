@@ -36,9 +36,13 @@ export default function FAQAccordion({
             </button>
             <div
               id={contentId}
-              className={`overflow-hidden text-sm text-[var(--muted)] transition-all ${isOpen ? "mt-3 max-h-40" : "max-h-0"}`}
+              className={`grid text-sm text-[var(--muted)] transition-all duration-300 ease-out ${
+                isOpen ? "mt-3 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              }`}
             >
-              <p>{item.answer}</p>
+              <div className="overflow-hidden">
+                <p>{item.answer}</p>
+              </div>
             </div>
           </div>
         );

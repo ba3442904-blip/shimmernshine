@@ -16,14 +16,20 @@ export default function ServiceCard({ service }: { service: Service }) {
   const starting = service.priceTiers.sort((a, b) => a.priceCents - b.priceCents)[0];
 
   return (
-    <Card className="flex h-full flex-col gap-4">
+    <Card className="group flex h-full flex-col gap-4">
       <div className="text-lg font-semibold">{service.name}</div>
       <p className="text-sm text-[var(--muted)]">{service.shortDescription}</p>
       <div className="text-sm font-semibold text-[var(--accent)]">
         Starting at {starting ? formatPrice(starting.priceCents) : "Call for quote"}
       </div>
-      <Link href="/services" className="mt-auto text-sm font-semibold text-[var(--accent)]">
-        View details →
+      <Link
+        href="/services"
+        className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)]"
+      >
+        View details{" "}
+        <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">
+          →
+        </span>
       </Link>
     </Card>
   );
